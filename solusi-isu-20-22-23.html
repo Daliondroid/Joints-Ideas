@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 Solusi Potensial untuk Isu 30, 32, dan 33 | Hackathon JOINTS</title>
+<style>
+  :root{
+    --bg:#0f172a; --ink:#0f172a; --muted:#64748b; --card:#ffffff;
+    --soft:#f8fafc; --line:#e2e8f0; --purple:#7c3aed; --purple-dark:#5b21b6;
+    --teal:#0d9488; --blue:#2563eb; --green:#15803d; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--soft);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.65}
+  a{color:var(--purple-dark)}
+  .wrap{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+  header.hero{position:relative;overflow:hidden;color:#fff;padding:54px 24px 42px;background:linear-gradient(135deg,#0f172a 0%,#312e81 42%,#7c3aed 72%,#db2777 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 84% 14%,rgba(255,255,255,.28),transparent 34%)}
+  .eyebrow{display:inline-block;padding:6px 13px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.16);border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.3px}
+  h1{max-width:900px;margin:16px 0 10px;font-size:clamp(28px,5vw,50px);line-height:1.12}
+  .lead{max-width:920px;margin:0;font-size:clamp(14px,2vw,18px);opacity:.96}
+  .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .meta span{padding:6px 11px;border-radius:999px;background:rgba(0,0,0,.28);font-size:13px}
+  nav.toolbar{position:sticky;top:0;z-index:20;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .toolbar-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .toolbar a,.back-link{display:inline-block;text-decoration:none;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:800}
+  .toolbar a{background:var(--ink);color:#fff}
+  .toolbar a.secondary{background:#ede9fe;color:var(--purple-dark)}
+  main{max-width:1160px;margin:0 auto;padding:28px 16px 64px}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:26px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .metric strong{display:block;color:var(--purple);font-size:25px;line-height:1.1}
+  .metric small{color:var(--muted)}
+  .notice{padding:15px 17px;margin-bottom:28px;border:1px solid #c4b5fd;border-radius:14px;background:#f5f3ff;color:#312e81;font-size:14px}
+  .section-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-bottom:32px}
+  .section-nav a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink);font-weight:800}
+  .section-nav a:hover{border-color:var(--purple);color:var(--purple-dark)}
+  .section-nav small{display:block;color:var(--muted);font-weight:400}
+  .issue-section{scroll-margin-top:78px;margin-top:38px}
+  .issue-heading{display:flex;gap:13px;align-items:flex-start;padding:20px;border-radius:16px;margin-bottom:16px;color:#fff}
+  .issue-heading.teal{background:linear-gradient(120deg,#115e59,#0d9488)}
+  .issue-heading.blue{background:linear-gradient(120deg,#1e3a8a,#2563eb)}
+  .issue-heading.green{background:linear-gradient(120deg,#14532d,#15803d)}
+  .issue-number{display:inline-grid;place-items:center;min-width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.2);font-size:22px;font-weight:900}
+  .issue-heading h2{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.2}
+  .issue-heading p{margin:5px 0 0;opacity:.92;font-size:14px}
+  .idea-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .idea-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:21px;box-shadow:0 4px 15px rgba(15,23,42,.06)}
+  .idea-card:first-child{border-color:#c4b5fd;box-shadow:0 8px 22px rgba(124,58,237,.12)}
+  .idea-top{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:10px}
+  .rank{display:inline-grid;place-items:center;width:31px;height:31px;border-radius:9px;background:var(--ink);color:#fff;font-weight:900}
+  .score,.type{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}
+  .score{background:#fef3c7;color:#92400e;border:1px solid #f59e0b}
+  .type{background:#f1f5f9;color:#475569;border:1px solid var(--line)}
+  .idea-card h3{margin:7px 0 13px;font-size:21px;line-height:1.25}
+  .idea-card h4{margin:13px 0 4px;color:var(--purple-dark);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .idea-card p{margin:0;font-size:14px}
+  .idea-card ul{margin:5px 0 0;padding-left:18px;font-size:14px}
+  .idea-card li{margin-bottom:5px}
+  .mvp{padding:12px 13px;margin-top:13px;border-radius:11px;background:#f0fdf4;border:1px solid #bbf7d0}
+  .mvp h4{margin-top:0;color:var(--green)}
+  .risk{padding:12px 13px;margin-top:11px;border-radius:11px;background:#fffbeb;border:1px solid #fde68a}
+  .risk h4{margin-top:0;color:var(--amber)}
+  .section-footer{margin-top:18px;text-align:right}
+  .section-footer a{font-size:13px;font-weight:800;text-decoration:none}
+  .sources{margin-top:38px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+  .sources h2{margin:0 0 6px;font-size:21px}
+  .sources p{margin:0 0 12px;color:var(--muted);font-size:14px}
+  .sources ul{margin:0;padding-left:20px;font-size:14px}
+  footer{padding:30px 24px;background:var(--bg);color:#cbd5e1;font-size:13px}
+  @media(max-width:820px){.idea-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){header.hero{padding:40px 18px 30px}main{padding-left:12px;padding-right:12px}.idea-card{padding:17px}.issue-heading{padding:16px}.toolbar-inner{justify-content:stretch}.toolbar a{flex:1;text-align:center}}
+  @media print{nav.toolbar,.section-nav{display:none}.idea-card{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Hackathon JOINTS • Solution Lab</span>
+    <h1>15 Ide Solusi Potensial untuk Isu 30, 32, dan 33</h1>
+    <p class="lead">Kumpulan konsep prototype yang diturunkan dari tiga masalah terpilih: jajanan ultra-proses di sekolah, stunting dan beban ganda gizi, serta TBC. Setiap ide memprioritaskan kebaruan kombinasi, dampak terukur, dan kelayakan demonstrasi hackathon.</p>
+    <div class="meta"><span>3 isu prioritas</span><span>5 ide per isu</span><span>Fokus: MVP + validasi lapangan</span><span>Bukan diagnosis medis</span></div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m30">Kembali ke isu 30</a>
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m32">Kembali ke isu 32</a>
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m33">Kembali ke isu 33</a>
+    <a class="secondary" href="#sources">Rujukan metode</a>
+  </div>
+</nav>
+
+<main>
+  <div class="summary">
+    <div class="metric"><strong>15</strong><small>Ide solusi terkurasi</small></div>
+    <div class="metric"><strong>3</strong><small>Masalah prioritas</small></div>
+    <div class="metric"><strong>5</strong><small>Ide per masalah</small></div>
+    <div class="metric"><strong>MVP</strong><small>Setiap ide punya jalur demo</small></div>
+  </div>
+
+  <div class="notice"><b>Cara membaca skor:</b> N = kebaruan kombinasi, P = potensi dampak, F = kelayakan dibuat dan diuji. Skor bukan hasil penilaian ilmiah final. Semua ide kesehatan membutuhkan validasi tenaga kesehatan, perlindungan data, dan uji lapangan sebelum dipakai untuk keputusan klinis.</div>
+
+  <div class="section-nav">
+    <a href="#issue30">Isu 30: Jajanan Ultra-Proses<small>5 ide untuk kantin dan perilaku makan</small></a>
+    <a href="#issue32">Isu 32: Stunting &amp; Gizi Ganda<small>5 ide untuk gizi, pertumbuhan, dan pangan</small></a>
+    <a href="#issue33">Isu 33: TBC<small>5 ide untuk tracing, terapi, dan operasi lapangan</small></a>
+  </div>
+
+  <section class="issue-section" id="issue30">
+    <div class="issue-heading teal">
+      <span class="issue-number">20</span>
+      <div><h2>Kantin Sekolah dan Jajanan Ultra-Proses</h2><p>Intervensi dipindahkan ke titik pembelian: harga, stok, peer pressure, dan insentif penjual.</p></div>
+    </div>
+    <div class="idea-grid">
+      <article class="idea-card" id="s20-1">
+        <div class="idea-top"><span class="rank">1</span><span class="score">N5 • P5 • F5</span><span class="type">Rekomendasi pembelian</span></div>
+        <h3>KantinSwap</h3>
+        <h4>Kebaruan</h4><p>Mesin substitusi menawarkan jajanan yang lebih baik dengan harga, rasa, dan ukuran porsi yang mendekati pilihan awal. Fokusnya bukan edukasi, tetapi keputusan pembelian aktual.</p>
+        <h4>Potensi sistem</h4><ul><li>Katalog produk, harga, stok, bahan, dan tingkat pemrosesan.</li><li>Rekomendasi alternatif yang setara anggaran.</li><li>Dashboard penjual untuk melihat produk yang paling sering diganti.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>QR katalog kantin, rule engine substitusi, dan dashboard sederhana. Ukur persentase pilihan ultra-proses, tingkat penerimaan alternatif, serta margin penjual.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Validasi klasifikasi makanan bersama ahli gizi; jangan menghakimi pilihan siswa berdasarkan data individual.</p></div>
+      </article>
+
+      <article class="idea-card" id="s20-2">
+        <div class="idea-top"><span class="rank">2</span><span class="score">N5 • P4 • F4</span><span class="type">JITAI dan nudging</span></div>
+        <h3>RecessPulse</h3>
+        <h4>Kebaruan</h4><p>Intervensi diuji tepat saat jam istirahat, bukan melalui notifikasi generik. Sistem membandingkan label warna, diskon, social proof, dan tantangan kelas.</p>
+        <h4>Potensi sistem</h4><ul><li>Deteksi waktu istirahat dan transaksi.</li><li>Pemilihan pesan berbasis konteks.</li><li>Randomisasi mikro untuk mengetahui nudge yang benar-benar bekerja.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Simulasi kantin dengan beberapa tipe pesan dan pencatatan pilihan siswa. Ukur perubahan pilihan dalam 15–30 menit, opt-out, dan perbedaan efek antar kelompok.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Perlu persetujuan sekolah dan orang tua jika melibatkan siswa di bawah umur.</p></div>
+      </article>
+
+      <article class="idea-card" id="s20-3">
+        <div class="idea-top"><span class="rank">3</span><span class="score">N5 • P5 • F3</span><span class="type">Digital twin kantin</span></div>
+        <h3>CanteenTwin</h3>
+        <h4>Kebaruan</h4><p>Digital twin mensimulasikan hubungan antara harga, stok, margin penjual, komposisi menu, dan kualitas pilihan siswa.</p>
+        <h4>Potensi sistem</h4><ul><li>Simulasi perubahan harga dan menu.</li><li>Optimasi portofolio makanan sehat yang tetap menguntungkan.</li><li>Perbandingan skenario sebelum kebijakan diterapkan.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Input penjualan sederhana lalu tampilkan skenario “what-if”. Ukur skor gizi, keterjangkauan, prediksi permintaan, dan margin penjual.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Data penjualan awal dapat dibuat sintetis untuk demo, lalu diuji dengan data satu kantin.</p></div>
+      </article>
+
+      <article class="idea-card" id="s20-4">
+        <div class="idea-top"><span class="rank">4</span><span class="score">N4 • P5 • F4</span><span class="type">Agregasi permintaan</span></div>
+        <h3>KantinKolektif</h3>
+        <h4>Kebaruan</h4><p>Siswa dan orang tua melakukan pre-order paket jajanan yang lebih baik secara kolektif sehingga harga turun melalui pembelian volume besar.</p>
+        <h4>Potensi sistem</h4><ul><li>Pre-order paket makanan lokal.</li><li>Penggabungan permintaan lintas kelas.</li><li>Prediksi produksi untuk mengurangi makanan terbuang.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Fitur pemesanan, pembayaran, pengelompokan pesanan, dan dashboard penjual. Ukur harga per paket, tingkat adopsi, sisa makanan, dan repeat order.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Mulai dari satu menu sehat berharga setara jajanan populer agar perilaku awal mudah diukur.</p></div>
+      </article>
+
+      <article class="idea-card" id="s20-5">
+        <div class="idea-top"><span class="rank">5</span><span class="score">N4 • P4 • F3</span><span class="type">Food intelligence</span></div>
+        <h3>JajanLens</h3>
+        <h4>Kebaruan</h4><p>Pemindai berbasis foto dan OCR untuk jajanan informal yang tidak memiliki barcode atau label nutrisi standar.</p>
+        <h4>Potensi sistem</h4><ul><li>Identifikasi nama dan bahan jajanan.</li><li>Estimasi gula, garam, dan tingkat pemrosesan.</li><li>Alternatif produk lokal yang lebih baik.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Dataset 50–100 jajanan lokal, OCR sederhana, basis data bahan, dan rekomendasi alternatif. Ukur akurasi klasifikasi dan tingkat penggunaan rekomendasi.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Tampilkan tingkat keyakinan dan sumber data. Jangan menyebut hasil sebagai diagnosis kesehatan.</p></div>
+      </article>
+    </div>
+    <div class="section-footer"><a href="#top">Kembali ke atas</a></div>
+  </section>
+
+  <section class="issue-section" id="issue32">
+    <div class="issue-heading blue">
+      <span class="issue-number">22</span>
+      <div><h2>Stunting dan Beban Ganda Gizi</h2><p>Intervensi menggabungkan 1000 HPK, keterjangkauan pangan, pertumbuhan, WASH, dan risiko gizi berlebih.</p></div>
+    </div>
+    <div class="idea-grid">
+      <article class="idea-card" id="s22-1">
+        <div class="idea-top"><span class="rank">1</span><span class="score">N5 • P5 • F4</span><span class="type">Optimasi menu</span></div>
+        <h3>OptiPiring 1000 HPK</h3>
+        <h4>Kebaruan</h4><p>Optimizer menu murah yang menggunakan harga lokal, ketersediaan bahan, kebutuhan zat gizi, dan batas paparan gula serta makanan ultra-proses.</p>
+        <h4>Potensi sistem</h4><ul><li>Perhitungan kebutuhan protein, zat besi, zinc, kalsium, dan folat.</li><li>Rekomendasi menu berdasarkan anggaran dan bahan lokal.</li><li>Penjelasan trade-off antara biaya dan kecukupan gizi.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Formulir usia, anggaran, bahan tersedia, dan preferensi keluarga; keluaran menu 7 hari. Ukur biaya, keragaman pangan, kepatuhan, serta kecukupan nutrisi.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Rekomendasi harus ditinjau ahli gizi dan tidak menggantikan pemeriksaan posyandu.</p></div>
+      </article>
+
+      <article class="idea-card" id="s22-2">
+        <div class="idea-top"><span class="rank">2</span><span class="score">N5 • P5 • F3</span><span class="type">Causal decision support</span></div>
+        <h3>GiziGraph</h3>
+        <h4>Kebaruan</h4><p>Graph sebab-akibat membantu kader melihat jalur masalah dan memilih intervensi, bukan hanya menerima skor risiko stunting.</p>
+        <h4>Potensi sistem</h4><ul><li>Menghubungkan antropometri, diet, WASH, infeksi, dan ekonomi.</li><li>Menunjukkan faktor yang paling mungkin dapat diintervensi.</li><li>Menyediakan skenario “what-if” dengan tingkat ketidakpastian.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Graph berbasis aturan dan data posyandu sintetis; keluaran prioritas kunjungan kader. Ukur kalibrasi, ketepatan prioritas, dan waktu respons.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Hubungan statistik tidak boleh dipresentasikan sebagai sebab pasti tanpa validasi kausal.</p></div>
+      </article>
+
+      <article class="idea-card" id="s22-3">
+        <div class="idea-top"><span class="rank">3</span><span class="score">N4 • P5 • F4</span><span class="type">Monitoring trajektori</span></div>
+        <h3>GrowthSentinel</h3>
+        <h4>Kebaruan</h4><p>Sistem mendeteksi perubahan arah pertumbuhan anak dari waktu ke waktu, bukan hanya membandingkan satu hasil timbang dengan ambang batas.</p>
+        <h4>Potensi sistem</h4><ul><li>Deteksi pertumbuhan linear yang melambat.</li><li>Deteksi kenaikan berat badan terlalu cepat.</li><li>Penanda kualitas pengukuran dan data yang hilang.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Grafik pertumbuhan longitudinal, deteksi anomali, dan daftar anak untuk kunjungan lanjutan. Ukur sensitivitas, false alarm, dan kelengkapan pengukuran.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Ketidakpastian alat ukur dan kualitas pengukuran kader harus ditampilkan secara eksplisit.</p></div>
+      </article>
+
+      <article class="idea-card" id="s22-4">
+        <div class="idea-top"><span class="rank">4</span><span class="score">N5 • P4 • F4</span><span class="type">Household nutrition</span></div>
+        <h3>Household Nutrition Twin</h3>
+        <h4>Kebaruan</h4><p>Digital twin memodelkan satu rumah tangga: makanan bersama, pembagian lauk, anggaran, dan perbedaan kebutuhan antaranggota keluarga.</p>
+        <h4>Potensi sistem</h4><ul><li>Menangkap stunting dan obesitas dalam lingkungan pangan yang sama.</li><li>Menyusun perubahan menu keluarga, bukan hanya menu anak.</li><li>Menguji skenario porsi dan belanja.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Profil keluarga, simulasi menu, pembagian porsi, dan rencana belanja mingguan. Ukur keterjangkauan, kepatuhan, dan pemerataan pembagian pangan.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Hindari stigma terhadap berat badan; gunakan bahasa kesehatan keluarga dan kecukupan gizi.</p></div>
+      </article>
+
+      <article class="idea-card" id="s22-5">
+        <div class="idea-top"><span class="rank">5</span><span class="score">N5 • P4 • F3</span><span class="type">Food-system marketplace</span></div>
+        <h3>NutrientGap Exchange</h3>
+        <h4>Kebaruan</h4><p>Hasil identifikasi kekurangan zat gizi dari posyandu diterjemahkan menjadi permintaan bahan pangan lokal kepada petani, nelayan, koperasi, dan warung.</p>
+        <h4>Potensi sistem</h4><ul><li>Peta bahan pangan padat gizi dan harga.</li><li>Paket bahan pangan untuk beberapa keluarga.</li><li>Agregasi permintaan agar harga lebih terjangkau.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Pilih tiga sampai lima bahan pangan lokal, tampilkan stok dan harga, lalu buat fitur paket bersama. Ukur perubahan harga, ketersediaan, dan pembelian ulang.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Mulai sebagai prototype matching, bukan langsung mengelola distribusi pangan berskala besar.</p></div>
+      </article>
+    </div>
+    <div class="section-footer"><a href="#top">Kembali ke atas</a></div>
+  </section>
+
+  <section class="issue-section" id="issue33">
+    <div class="issue-heading green">
+      <span class="issue-number">23</span>
+      <div><h2>TBC: Deteksi, Kontak, dan Kepatuhan Terapi</h2><p>Intervensi memadukan jaringan kontak, dukungan pasien, interoperabilitas sektor swasta, dan operasi lapangan.</p></div>
+    </div>
+    <div class="idea-grid">
+      <article class="idea-card" id="s23-1">
+        <div class="idea-top"><span class="rank">1</span><span class="score">N5 • P5 • F3</span><span class="type">Contact network</span></div>
+        <h3>TB Bridge</h3>
+        <h4>Kebaruan</h4><p>Contact tracing berbasis jaringan menghubungkan pasien, rumah, kos, pesantren, sekolah, tempat kerja, dan lokasi berkumpul.</p>
+        <h4>Potensi sistem</h4><ul><li>Mencari lokasi penghubung antar-klaster.</li><li>Memprioritaskan skrining berdasarkan centrality dan kedekatan paparan.</li><li>Menyimpan identitas pasien secara terpisah dan terbatas.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Graph database sederhana, input kontak oleh kader, ranking lokasi, dan task list pemeriksaan. Ukur kontak relevan yang ditemukan per kunjungan.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Jangan membuat peta publik yang memberi stigma kepada pasien atau lingkungan tertentu.</p></div>
+      </article>
+
+      <article class="idea-card" id="s23-2">
+        <div class="idea-top"><span class="rank">2</span><span class="score">N4 • P5 • F4</span><span class="type">Differentiated care</span></div>
+        <h3>TB CareLoop</h3>
+        <h4>Kebaruan</h4><p>Sistem tidak hanya mengingatkan minum obat, tetapi mengidentifikasi alasan dosis terlewat dan memilih dukungan yang sesuai.</p>
+        <h4>Potensi sistem</h4><ul><li>Pelaporan dosis dan efek samping melalui WhatsApp, SMS, atau USSD.</li><li>Deteksi masalah transportasi, pekerjaan, makanan, atau stigma.</li><li>Eskalasi ke kader atau petugas jika risiko meningkat.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Chatbot low-bandwidth, risk score berbasis aturan, dan dashboard kader. Ukur waktu respons, penyelesaian follow-up, dan penurunan pasien yang hilang kontak.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Model tidak boleh mengubah obat secara otomatis. Keputusan terapi tetap berada pada tenaga kesehatan.</p></div>
+      </article>
+
+      <article class="idea-card" id="s23-3">
+        <div class="idea-top"><span class="rank">3</span><span class="score">N5 • P5 • F3</span><span class="type">Public-private mix</span></div>
+        <h3>TB Relay</h3>
+        <h4>Kebaruan</h4><p>Sistem menghubungkan puskesmas, rumah sakit, apotek, laboratorium, dan dokter praktik untuk mengurangi kasus yang berhenti di sektor swasta.</p>
+        <h4>Potensi sistem</h4><ul><li>Formulir rujukan digital dan status tindak lanjut.</li><li>Pencocokan data untuk mengurangi duplikasi.</li><li>Notifikasi balik kepada fasilitas pengirim.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Formulir rujukan, API atau ekspor data sederhana, pencocokan identitas terproteksi, dan dashboard kasus belum tersambung. Ukur referral completion dan kelengkapan data.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Gunakan persetujuan pasien, minimisasi data, dan standar interoperabilitas sejak awal.</p></div>
+      </article>
+
+      <article class="idea-card" id="s23-4">
+        <div class="idea-top"><span class="rank">4</span><span class="score">N5 • P4 • F4</span><span class="type">Indoor air quality</span></div>
+        <h3>TB AirWatch</h3>
+        <h4>Kebaruan</h4><p>Sensor CO2, kepadatan penghuni, durasi aktivitas, dan ventilasi digunakan untuk memetakan ruang dengan risiko airborne lebih tinggi.</p>
+        <h4>Potensi sistem</h4><ul><li>Memberi peringatan ventilasi buruk di kos, pesantren, atau ruang tunggu.</li><li>Menghubungkan ruang berisiko dengan prioritas skrining.</li><li>Menguji perubahan tata ruang sebelum dan sesudah intervensi.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Sensor CO2 murah, dashboard ruang, peringatan ventilasi, dan rekomendasi tindakan. Ukur durasi CO2 tinggi dan kepatuhan membuka ventilasi.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>CO2 bukan detektor TBC. Sistem hanya mengukur kondisi lingkungan yang dapat memperbesar risiko penularan.</p></div>
+      </article>
+
+      <article class="idea-card" id="s23-5">
+        <div class="idea-top"><span class="rank">5</span><span class="score">N4 • P5 • F5</span><span class="type">Field operations</span></div>
+        <h3>TB FieldOps</h3>
+        <h4>Kebaruan</h4><p>Algoritma penugasan kader menentukan siapa yang dikunjungi lebih dulu berdasarkan risiko, lokasi, jarak, kapasitas petugas, dan riwayat kontak.</p>
+        <h4>Potensi sistem</h4><ul><li>Prioritas kunjungan yang dapat dijelaskan.</li><li>Optimasi rute dan pembagian beban kader.</li><li>Mode offline untuk wilayah dengan sinyal rendah.</li></ul>
+        <div class="mvp"><h4>MVP dan metrik</h4><p>Peta kasus sintetis, algoritma prioritas, rute kunjungan, dan sinkronisasi offline. Ukur jumlah kontak disaring per hari, jarak tempuh, dan kasus prioritas yang terlewat.</p></div>
+        <div class="risk"><h4>Catatan</h4><p>Prototype dapat menggunakan data sintetis. Penggunaan data pasien nyata membutuhkan tata kelola dan izin yang sesuai.</p></div>
+      </article>
+    </div>
+    <div class="section-footer"><a href="#top">Kembali ke atas</a></div>
+  </section>
+
+  <section class="sources" id="sources">
+    <h2>Basis Mekanisme Riset</h2>
+    <p>Rujukan berikut digunakan sebagai dasar pendekatan, bukan bukti bahwa prototype otomatis efektif di Indonesia.</p>
+    <ul>
+      <li><a href="https://doi.org/10.1186/s12889-025-24069-1" target="_blank" rel="noopener">Digital nudging untuk kualitas diet, systematic review di BMC Public Health</a></li>
+      <li><a href="https://doi.org/10.3945/jn.108.092270" target="_blank" rel="noopener">Linear programming untuk complementary feeding di Indonesia</a></li>
+      <li><a href="https://doi.org/10.1136/bmjpo-2023-001983" target="_blank" rel="noopener">Bayesian Network untuk determinan stunting</a></li>
+      <li><a href="https://doi.org/10.1145/3292500.3330777" target="_blank" rel="noopener">Learning to prescribe interventions untuk kepatuhan terapi TBC</a></li>
+      <li><a href="https://doi.org/10.1186/s12889-023-16425-w" target="_blank" rel="noopener">Social network analysis dan agent-based model untuk transmisi TBC</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>Catatan:</b> Halaman ini berisi konsep solusi untuk eksplorasi hackathon. Ide terkait kesehatan dan TBC memerlukan validasi klinis, etika, keamanan data, serta uji implementasi sebelum digunakan di lapangan.</div>
+</footer>
+
+</body>
+</html>

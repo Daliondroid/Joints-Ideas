@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventarisasi 55 Masalah Hackathon JOINTS: Education, Healthcare, Sustainability (2016–2026)</title>
+<style>
+  :root{
+    --bg:#0f172a; --bg2:#1e293b; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+    --accent:#dc2626; --accent2:#f59e0b; --teal:#0d9488; --blue:#2563eb; --violet:#7c3aed;
+    --line:#e2e8f0; --soft:#f8fafc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--soft);color:var(--ink);line-height:1.65}
+  header.hero{background:linear-gradient(135deg,#0f172a 0%,#0d9488 45%,#f59e0b 80%,#dc2626 100%);color:#fff;padding:56px 24px 40px;position:relative;overflow:hidden}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.25),transparent 40%)}
+  .wrap{max-width:1140px;margin:0 auto;position:relative;z-index:1}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.3px}
+  h1{font-size:clamp(26px,4vw,44px);line-height:1.15;margin:16px 0 10px}
+  .sub{font-size:clamp(14px,2vw,18px);opacity:.95;max-width:920px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;font-size:13px}
+  .meta span{background:rgba(0,0,0,.35);padding:6px 12px;border-radius:999px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:24px}
+  .stat{background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  .stat b{font-size:22px;display:block;color:var(--accent)}
+  .stat small{color:var(--muted)}
+  nav.toolbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+  .toolbar-inner{max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  #search{flex:1;min-width:220px;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:15px}
+  select{padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+  .count{font-size:13px;color:var(--muted);font-weight:600}
+  main{max-width:1140px;margin:0 auto;padding:28px 16px 60px}
+  .toc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:24px}
+  .toc h2{margin:0 0 6px;font-size:20px}
+  .toc-dropdown-title{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+  .toc-label{flex:1;min-width:0}
+  .toc-toggle{display:inline-flex;align-items:center;justify-content:center;flex:0 0 42px;width:42px;height:42px;padding:0;background:transparent;border:0;border-radius:10px;cursor:pointer}
+  .toc-toggle:hover{background:var(--soft)}
+  .toc-toggle:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}
+  .toc-toggle-icon{width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:16px solid var(--ink);transition:transform .2s ease}
+  .toc.toc-collapsed > p,.toc.toc-collapsed > .toc-grid{display:none}
+  .toc.toc-collapsed .toc-toggle-icon{transform:rotate(-90deg)}
+  .toc p{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+  .toc-grid a{display:block;text-decoration:none;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;font-weight:600}
+  .toc-grid a:hover{border-color:var(--accent);color:var(--accent)}
+  .toc-grid a small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+  .toc-section-divider{grid-column:1/-1;display:flex;align-items:center;margin:8px 0 2px;padding:10px 0 4px;border-top:2px solid var(--line);color:var(--ink);font-size:13px;font-weight:800;letter-spacing:.3px}
+  .toc-section-divider:first-child{margin-top:0;padding-top:0;border-top:0}
+  .sect-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 14px;font-size:22px;border-left:6px solid var(--accent);padding-left:12px;cursor:pointer}
+  .section-label{flex:1;min-width:0}
+  article.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:20px;box-shadow:0 4px 16px rgba(15,23,42,.06)}
+  article.card.hidden{display:none}
+  .top-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px}
+  .num{background:var(--ink);color:#fff;font-weight:800;border-radius:10px;padding:6px 12px;font-size:14px}
+  .cat{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:6px 12px;border-radius:999px;color:#fff}
+  .c-kesehatan{background:#0d9488}.c-pendidikan{background:#2563eb}.c-lingkungan{background:#15803d}
+  .tag{font-size:11px;font-weight:800;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1.5px solid var(--line);color:#334155}
+  .tag-baru{background:#fef3c7;border-color:#f59e0b;color:#92400e}
+  .tag-lama{background:#e2e8f0;color:#475569}
+  .solution-btn{display:inline-block;background:#7c3aed;color:#fff;text-decoration:none;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;box-shadow:0 3px 8px rgba(124,58,237,.22)}
+  .solution-btn:hover{background:#6d28d9;transform:translateY(-1px)}
+  .top-row .idea-btn{margin-left:auto;background:#0f766e}
+  .top-row .idea-btn:hover{background:#115e59}
+  .skala{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;border:1.5px solid var(--line);background:#fff}
+  .skala-makro{border-color:#dc2626;color:#dc2626}
+  .skala-mikro{border-color:#b45309;color:#b45309;background:#fffbeb}
+  .section-toggle{display:inline-flex;align-items:center;justify-content:center;flex:0 0 42px;width:42px;height:42px;padding:0;background:transparent;border:0;border-radius:10px;cursor:pointer}
+  .section-toggle:hover{background:var(--soft)}
+  .section-toggle:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}
+  .section-toggle-icon{width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:16px solid var(--ink);transition:transform .2s ease}
+  .sect-title.collapsed .section-toggle-icon{transform:rotate(-90deg)}
+  article.card.section-collapsed{display:none}
+  h2.title{font-size:23px;margin:10px 0 12px;line-height:1.3}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr}}
+  .box{border-radius:12px;padding:16px;border:1px solid var(--line);background:#fff}
+  .box h3{margin:0 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+  .box.deskripsi{background:#fef2f2;border-color:#fecaca}.box.deskripsi h3{color:#b91c1c}
+  .box.dampak{background:#fffbeb;border-color:#fde68a}.box.dampak h3{color:#b45309}
+  .box.tren{background:#eff6ff;border-color:#bfdbfe}.box.tren h3{color:#1d4ed8}
+  .box.celah{background:#f0fdf4;border-color:#bbf7d0}.box.celah h3{color:#15803d}
+  .box ul{margin:8px 0 0;padding-left:18px;font-size:14.5px}
+  .box li{margin-bottom:6px}
+  .kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .kw code{background:#0f172a;color:#fff;padding:4px 10px;border-radius:999px;font-size:12.5px}
+  .gap-callout{font-size:14.5px;background:#052e16;color:#dcfce7;border-radius:10px;padding:12px 14px;margin-top:10px}
+  footer{background:var(--bg);color:#cbd5e1;padding:32px 24px;font-size:13.5px}
+  #toTop{position:fixed;right:18px;bottom:18px;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.3);display:none}
+  .print-btn{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer}
+  @media print{nav.toolbar,#toTop{display:none}article.card{break-inside:avoid;box-shadow:none}.section-toggle,.toc-toggle{display:none}article.card.section-collapsed:not(.hidden){display:block !important}.toc.toc-collapsed > p{display:block !important}.toc.toc-collapsed > .toc-grid{display:grid !important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Hackathon JOINTS • Education • Healthcare • Sustainability</div>
+    <h1>55 Masalah Riil Indonesia (2016–2026): Education + Healthcare + Sustainability</h1>
+    <p class="sub">Inventarisasi &amp; pemetaan masalah — <b>bukan solusi</b>. Setiap masalah disusun dengan format: <b>Nama &amp; Kategori → Realitas Lapangan &amp; Akar Penyebab → Dampak &amp; Kerugian Tersembunyi → Pola Tren &amp; Kata Kunci Keluhan → Point of Friction</b>. Fokus hackathon hanya tiga tema: <b>Education / Healthcare / Sustainability (Lingkungan)</b>. Isu pangan hanya dipertahankan jika terkait langsung dengan kesehatan atau keberlanjutan.</p>
+    <div class="meta"><span>Rentang: 2016–2026 (10 tahun terakhir)</span><span>Sasaran: kelas menengah ke bawah / informal / desil 3–7</span><span>Metode: observasi lapangan + etnografi digital + data resmi dan riset nasional 2022–2026</span></div>
+    <div class="stats">
+      <div class="stat"><b>55</b><small>Total: 22 Pendidikan + 17 Kesehatan + 16 Sustainability</small></div>
+      <div class="stat"><b>3</b><small>Sektor hackathon: education, healthcare, sustainability</small></div>
+      <div class="stat"><b>23 Mikro</b><small>Unnoticed micro-problems berdampak sistemis</small></div>
+      <div class="stat"><b>32 Makro</b><small>Isu struktural berulang 10 tahun</small></div>
+      <div class="stat"><b>41 Baru</b><small>Isu baru berbasis tren 2016–2026</small></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <input id="search" type="text" placeholder="Cari masalah… mis. PISA, feedback, kurikulum, AI, praktikum, stunting, sampah">
+    <select id="filter">
+      <option value="all">Semua sektor (3)</option>
+      <option value="c-pendidikan">Pendidikan (Education)</option>
+      <option value="c-kesehatan">Kesehatan (Healthcare)</option>
+      <option value="c-lingkungan">Sustainability (Lingkungan)</option>
+    </select>
+    <span class="count" id="count">22 masalah ditampilkan</span>
+    <button class="print-btn" onclick="window.print()">Cetak / PDF</button>
+  </div>
+</nav>
+
+<main>
+  <div class="toc">
+    <h2>Daftar Isi — Klik untuk melompat (55 isu)</h2>
+    <p>Benang merah: kemiskinan waktu, ruang, dan kepastian. Hanya tiga tema lomba yang ditampilkan. Pangan dilebur: harga volatil + tanpa kulkas → Sustainability; jajan ultra-proses + kenyang karbo → Kesehatan.</p>
+    <div class="toc-grid">
+      <a href="#m1">1. Guru Honorer Gonta-Ganti<small>Pendidikan • Makro • Lama</small></a>
+      <a href="#m2">2. Anak Tidak Sekolah 4 Juta<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m3">3. Literasi-Numerasi PISA Rendah<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m4">4. Kecanduan Gawai &amp; Judol<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m5">5. Guru Tenggelam Administrasi Digital<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m6">6. Kesenjangan 3T<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m7">7. PAUD Mahal &amp; Tanpa PAUD<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m8">8. Kelas Satu Arah<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m9">9. Feedback Guru Tidak Konstruktif<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m10">10. Asesmen Diagnostik Berhenti di Data<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m11">11. Kelas Heterogen, Satu Cara Mengajar<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m12">12. Murid Berkebutuhan Khusus Belum Terlayani<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m13">13. Kurikulum Berganti, Alur Belajar Terputus<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m14">14. Tugas Kelompok Tanpa Kolaborasi<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m15">15. AI Generatif Mengambil Alih Tugas<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m16">16. Koding dan AI, Guru Belum Siap<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m17">17. Pelatihan Guru Tidak Mengubah Kelas<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m18">18. Praktikum IPA Berhenti di Demonstrasi<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m19">19. Proyek P5 Berakhir di Produk<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m20">20. Tugas SMK Tidak Menyerupai Dunia Kerja<small>Pendidikan • Makro • Baru</small></a>
+      <a href="#m21">21. CP/TP Tidak Menjadi Tugas Otentik<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m22">22. Bahasa Pengantar Tidak Dipahami<small>Pendidikan • Mikro • Baru</small></a>
+      <a href="#m23">23. Antre Subuh BPJS<small>Kesehatan • Makro • Lama</small></a>
+      <a href="#m24">24. Obat BPJS Kosong<small>Kesehatan • Makro • Lama</small></a>
+      <a href="#m25">25. Posyandu Bolong<small>Kesehatan • Mikro • Lama</small></a>
+      <a href="#m26">26. Gigi &amp; Mental Disepelekan<small>Kesehatan • Mikro • Lama</small></a>
+      <a href="#m27">27. Ongkos Pendamping Sakit<small>Kesehatan • Mikro • Lama</small></a>
+      <a href="#m28">28. Jajan Ultra-Proses [Lebur]<small>Kesehatan • Mikro • Lama</small></a>
+      <a href="#m29">29. Kenyang Karbo [Lebur]<small>Kesehatan • Mikro • Lama</small></a>
+      <a href="#m30">30. Stunting &amp; Gizi Ganda<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m31">31. TBC Peringkat 2 Dunia<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m32">32. DBD &amp; Iklim<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m33">33. Diabetes Anak SMP<small>Kesehatan • Mikro • Baru</small></a>
+      <a href="#m34">34. Mental Remaja 15,5 Juta<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m35">35. Defisit BPJS Rp20-30T<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m36">36. Krisis Dokter Spesialis<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m37">37. Karies 40% + Anemia 27%<small>Kesehatan • Mikro • Baru</small></a>
+      <a href="#m38">38. CKG Tanpa Tindak Lanjut<small>Kesehatan • Mikro • Baru</small></a>
+      <a href="#m39">39. Kematian Ibu &amp; Anak<small>Kesehatan • Makro • Baru</small></a>
+      <a href="#m40">40. Harga Pangan Volatil [Lebur]<small>Sustainability • Makro • Lama</small></a>
+      <a href="#m41">41. Tanpa Kulkas [Lebur]<small>Sustainability • Mikro • Lama</small></a>
+      <a href="#m42">42. TPS Liar &amp; Bakar Sampah<small>Sustainability • Makro • Lama</small></a>
+      <a href="#m43">43. Got Mampet &amp; Banjir<small>Sustainability • Makro • Lama</small></a>
+      <a href="#m44">44. Air Sumur Tercemar<small>Sustainability • Mikro • Lama</small></a>
+      <a href="#m45">45. Rumah Gerah Pengap<small>Sustainability • Mikro • Lama</small></a>
+      <a href="#m46">46. Polusi Udara Jabodetabek<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m47">47. Darurat Sampah 143rb Ton<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m48">48. Metana Bantargebang<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m49">49. Plastik Laut &amp; Bakar Terbuka<small>Sustainability • Mikro • Baru</small></a>
+      <a href="#m50">50. Banjir Rob &amp; Subsiden<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m51">51. Krisis Air Bersih El Nino<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m52">52. Minim RTH &amp; Heat Island<small>Sustainability • Mikro • Baru</small></a>
+      <a href="#m53">53. Karhutla &amp; Deforestasi<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m54">54. Food Estate &amp; Konflik Agraria<small>Sustainability • Makro • Baru</small></a>
+      <a href="#m55">55. PLTU &amp; Limbah Sungai<small>Sustainability • Mikro • Baru</small></a>
+    </div>
+  </div>
+
+  <div id="list">
+
+  <h2 class="sect-title">Pendidikan (Education) — 22 isu</h2>
+
+  <article class="card" id="m1" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">01</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Isu lama</span><a class="solution-btn idea-btn" href="ide-kelasrelay-guru-honorer.html">Lihat ide KelasRelay</a></div>
+    <h2 class="title">Guru Honorer Gonta-Ganti, Kualitas Timpang Desa-Kota</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Honor Rp300–800rb/bulan, pindah-pindah cari tambahan, 1 guru pegang 2–3 mapel.</li><li>Sekolah pinggiran sulit dapat guru MIPA/Bahasa Inggris tetap. ~500rb honorer digaji di bawah UMK, ada yang Rp250rb.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Ganti metode tiap semester, fondasi calistung lemah, orang tua pasrah. Guru kelelahan kerja sampingan ojek/warung.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>gaji guru honorer</code><code>guru mogok tidak digaji</code><code>PPPK gagal terus</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di kelas 1–3 SD — fondasi literasi-numerasi rusak dan terbawa sampai SMP.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m2" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">02</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Anak Tidak Sekolah 4 Juta: Belum Sekolah, DO, Lulus Tidak Lanjut</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Kemendikdasmen 2026: ATS 3,96jt — Belum Pernah Bersekolah 1,9jt, DO/dikeluarkan 986rb, Lulus Tidak Melanjutkan 1,06jt. Bogor saja 6.000 ATS.</li><li>Akar: kemiskinan, anak kerja, minat rendah, malu usia lewat. Ajakan kembali ditolak (Bogor: 141 didata, 35 mau).</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Lost generation, jebakan kerja informal, pernikahan dini. Negara bayar mahal 10–20 tahun ke depan.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>anak putus sekolah</code><code>malas sekolah</code><code>kerja bantu ortu</code><code>kejar paket</code></div><ul><li>DPR minta jadi indikator kinerja daerah + Grand Design ATS 2045.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Deteksi dini gejala berisiko DO (absen, nilai jatuh) — tidak ada sistem peringatan + intervensi keluarga.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m3" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">03</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Krisis Literasi-Numerasi: Skor PISA Mentok di Papan Bawah</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>PISA: membaca 359→365, matematika 366→364, sains 383→389. 82% siswa di bawah level 2 matematika; hanya 18–25% capai minimum.</li><li>Akar: calistung kelas awal jebol, guru mengejar target, soal hafalan bukan nalar.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Lulus SMP buta nalar, mudah ditipu hoaks/pinjol, kalah saing bonus demografi. Target RPJMN 2029 (409/416/426) jauh.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>skor PISA Indonesia</code><code>anak susah berhitung</code><code>gerakan literasi numerasi</code></div><ul><li>GLN/GNN + Tanoto-Gates-UNICEF di 500 SD percontohan.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di kelas 1–2 SD dan asesmen diagnostik — fondasi yang tak diperbaiki terbawa sampai SMA.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m4" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">04</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Kecanduan Gawai, Judol, dan Konten Dewasa pada Anak Sekolah</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Anak pegang HP tanpa pendampingan: game berjam-jam, judi online slot, pinjol, konten pornografi/kekerasan. Begadang, bangun kesiangan.</li><li>Ortu gaptek + sibuk; wifi warung/patungan tanpa filter.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Nilai jatuh, utang, perilaku menyimpang, gangguan tidur dan mental. Konflik rumah tangga.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>anak kecanduan HP</code><code>pelajar main slot</code><code>cara batasi HP anak</code></div><ul><li>Keluhan guru: PR tidak dikerjakan karena mabar.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Jam 19.00–23.00 di kamar — HP pribadi tanpa kontrol orang tua/sekolah.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m5" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">05</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Guru Tenggelam Administrasi Digital: Dapodik, E-Rapor, dan PMM</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Dapodik, e-Rapor, PMM, dan laporan berulang menyita jam persiapan serta refleksi pembelajaran.</li><li>Format pelaporan berubah-ubah dan pelatihan platform sering singkat tanpa pendampingan saat guru kembali ke kelas.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Waktu untuk merancang aktivitas, memeriksa pemahaman, dan memberi feedback berkurang. Guru lelah, murid menerima pembelajaran yang kurang responsif.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>eror Dapodik</code><code>guru sibuk administrasi</code><code>e-Rapor bermasalah</code><code>PMM guru</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Awal semester + tenggat sinkronisasi — mengajar kalah oleh input data.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m6" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">06</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Kesenjangan 3T: Tanpa Guru, Tanpa Sinyal, Tanpa Buku</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Sekolah 3T kosong guru MIPA/Inggris, 1 guru semua mapel; sinyal 1 bar, buku telat berbulan-bulan, transport sungai/jalan rusak.</li><li>Guru menolak ditempatkan; insentif kecil; blank spot zonasi (tidak ada SMP/SMA dekat).</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Buta huruf fungsional, ATS tertinggi di Papua/NTT, migrasi anak ke kota tanpa bekal.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>sekolah 3T kekurangan guru</code><code>blank spot sekolah</code><code>anak pedalaman putus sekolah</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">SK penempatan + rumah dinas — tanpa afirmasi nyata, guru pergi dalam 1–2 tahun.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m7" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">07</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">PAUD Mahal dan 29.000 Desa Tanpa PAUD</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>29.000+ desa tanpa PAUD; PAUD swasta Rp300–800rb/bulan. Anak masuk SD tanpa stimulasi.</li><li>PAUD belum wajib, BOP kecil, guru PAUD honor termurah.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Calistung telat 1–2 tahun, gap kaya-miskin menganga sejak TK. Stunting + kurang stimulasi berlipat.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>biaya PAUD mahal</code><code>anak belum siap SD</code><code>cari PAUD murah</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Usia 4–6 tahun — jendela emas yang lewat tanpa layanan.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m8" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">08</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Kelas Satu Arah: Murid Jarang Bertanya dan Bernalar</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Pembelajaran satu arah masih dominan; guru mengejar penyampaian materi, bukan memastikan murid menjelaskan alasan dan menguji gagasan.</li><li>Observasi World Bank menemukan hanya 26% guru mencapai tingkat tinggi pada aspek instruction; 78% guru rendah dalam mengajukan pertanyaan terbuka.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid terbiasa mencari satu jawaban benar, takut salah saat bertanya, dan kesulitan memindahkan pengetahuan ke masalah baru.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>guru ceramah terus</code><code>murid pasif di kelas</code><code>siswa takut bertanya</code><code>berpikir kritis</code></div><ul><li>OECD dan World Bank mendorong pergeseran dari whole-class teaching menuju pembelajaran aktif dan bernalar.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Menit ke-20 sampai akhir pelajaran — kelas terlihat tenang, tetapi guru tidak memiliki sinyal apakah murid benar-benar memahami konsep.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m9" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">09</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Nilai Keluar, Belajar Tidak Bergerak: Umpan Balik Guru Tidak Konstruktif</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Tugas dikembalikan dengan angka, tanda benar-salah, atau komentar generik tanpa menunjukkan bagian yang perlu diperbaiki dan langkah berikutnya.</li><li>World Bank mencatat skor feedback guru hanya 1,8/5; 60% berada pada tingkat rendah dan 54% mendapat skor terendah.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Kesalahan yang sama berulang, murid tidak belajar mengoreksi proses berpikir, dan nilai menjadi akhir percakapan alih-alih awal perbaikan.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>nilai tapi tidak ada komentar</code><code>feedback tugas sekolah</code><code>guru cuma kasih nilai</code><code>remedial tidak jelas</code></div><ul><li>Kebutuhan asesmen formatif meningkat, tetapi praktik feedback yang spesifik dan tepat waktu belum merata.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Saat tugas dikembalikan sebelum topik berikutnya dimulai — murid menerima nilai, tetapi tidak memiliki kesempatan memperbaiki pekerjaannya.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m10" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">10</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Asesmen Diagnostik Berhenti di Data: Remediasi Tidak Menyusul</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Asesmen awal, MPLS, dan Rapor Pendidikan memetakan kemampuan murid, tetapi hasilnya sering tidak diterjemahkan menjadi kelompok belajar, remedial, atau pengayaan.</li><li>Guru kembali memakai satu rencana dan satu tempo untuk kelas yang tingkat penguasaannya berbeda.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid yang tertinggal tetap tidak terlihat sampai nilai jatuh; murid yang sudah menguasai materi kehilangan tantangan dan minat.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>asesmen diagnostik</code><code>hasil asesmen tidak ditindaklanjuti</code><code>remedial siswa</code><code>teaching at the right level</code></div><ul><li>INOVASI dan panduan asesmen nasional menekankan asesmen berkelanjutan sebagai dasar tindakan, bukan sekadar dokumentasi.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Minggu kedua setelah tes awal — data sudah tersimpan, tetapi guru tidak punya alur sederhana untuk mengubahnya menjadi intervensi pembelajaran.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m11" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">11</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Kelas Heterogen, Satu Cara Mengajar: <i>Teaching at the Right Level</i> Belum Jalan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Satu kelas berisi murid yang berbeda jauh dalam prasyarat membaca, berhitung, bahasa, dan kemandirian belajar, tetapi aktivitas sering disusun berdasarkan tingkat kelas, bukan tingkat penguasaan.</li><li>Guru kekurangan waktu dan alat untuk membuat beberapa jalur belajar yang tetap menuju tujuan kompetensi yang sama.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid tertinggal terus mengejar materi yang belum siap, sementara murid yang lebih maju menunggu. Kesenjangan melebar dari satu unit ke unit berikutnya.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kelas kemampuan campur</code><code>pembelajaran berdiferensiasi</code><code>teaching at the right level</code><code>learning gap</code></div><ul><li>Studi INOVASI/PSKP terhadap lebih dari 18.000 siswa di delapan provinsi menekankan pentingnya pengajaran sesuai titik awal murid.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Saat guru membagi tugas yang sama untuk seluruh kelas — sebagian murid belum menguasai prasyarat, sebagian lainnya sudah selesai lebih dulu.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m12" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">12</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Murid Berkebutuhan Khusus Hadir, tetapi Belum Terlayani</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Sekolah reguler menerima murid berkebutuhan khusus, tetapi guru kelas belum selalu mampu melakukan asesmen fungsional, memodifikasi instruksi, atau menyediakan alternatif cara menunjukkan pemahaman.</li><li>ULD sudah terbentuk di banyak daerah, namun ketersediaan dan pendampingan Guru Pendidikan Khusus belum merata.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid hadir secara fisik tetapi pasif, tertinggal, atau bergantung pada teman. Guru dan teman sekelas juga tidak memiliki strategi interaksi yang konsisten.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>sekolah inklusi</code><code>GPK terbatas</code><code>akomodasi layak</code><code>pembelajaran inklusif</code></div><ul><li>Kemendikdasmen memperkuat ULD dan pelatihan pendidikan inklusif karena jumlah murid yang membutuhkan layanan terus terdeteksi.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Saat instruksi kelompok, lembar kerja, dan ulangan dibuat satu format — tanpa pilihan teks, audio, visual, waktu, atau cara menjawab yang sesuai kebutuhan.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m13" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">13</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span><a class="solution-btn idea-btn" href="ide-alurnalar-kurikulum.html">Lihat ide AlurNalar</a></div>
+    <h2 class="title">Kurikulum Berganti, Alur Belajar Terputus: Guru Kesulitan Menyusun <i>Learning Progression</i></h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Perubahan kerangka KTSP, K13, dan Kurikulum Merdeka membuat guru berulang kali memetakan ulang urutan materi, prasyarat kompetensi, dan tempo satu semester.</li><li>Guru memahami target per fase, tetapi belum selalu memiliki peta yang menjelaskan konsep mana harus dibangun, diperdalam, dan ditransfer dari kelas ke kelas.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Materi dapat berulang atau terlewat, pembelajaran dipercepat menjelang akhir tahun, dan murid mengalami lompatan konsep ketika naik kelas atau berganti guru.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kurikulum ganti lagi</code><code>alur tujuan pembelajaran</code><code>materi belum selesai</code><code>ATP semester</code></div><ul><li>OECD dan INOVASI menekankan perlunya koherensi kurikulum, pengajaran, dan asesmen agar pemulihan belajar tidak terputus.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Awal tahun ajaran dan serah-terima kelas — guru menyusun flow baru tanpa riwayat penguasaan konsep murid yang dapat dibaca secara cepat.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m14" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">14</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Tugas Kelompok Tanpa Kolaborasi: Keterampilan Sosial-Emosional Murid Lemah</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Tugas kelompok sering berakhir pada pembagian bagian kerja: satu murid mengerjakan, yang lain menyalin atau menunggu.</li><li>Rubrik lebih banyak menilai produk akhir daripada komunikasi, negosiasi, mendengar, ketekunan, dan kontribusi individual.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid lulus dengan pengalaman kerja kelompok yang dangkal; konflik disembunyikan, murid pendiam tidak terlibat, dan kemampuan kolaborasi sulit dibuktikan.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>tugas kelompok yang kerja satu</code><code>anggota kelompok tidak bekerja</code><code>kolaborasi siswa</code><code>social emotional learning</code></div><ul><li>World Bank menempatkan keterampilan sosial dan kolaboratif sebagai area terlemah dalam observasi praktik guru Indonesia.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Saat presentasi kelompok — produk terlihat selesai, tetapi guru tidak mengetahui siapa yang memahami, berkontribusi, atau hanya mengikuti.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m15" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">15</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">AI Generatif Mengambil Alih Tugas Sekolah: Guru Sulit Menilai Proses</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Murid dapat meminta ChatGPT, Gemini, atau alat sejenis menyusun esai, jawaban, kode, dan ringkasan; guru sering hanya melihat produk akhir.</li><li>Aturan penggunaan AI berbeda antar guru, sementara keterampilan memeriksa sumber, mengungkap bantuan AI, dan menjelaskan proses belum diajarkan konsisten.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Kemandirian berpikir dan integritas akademik terancam; guru sulit membedakan murid yang memahami konsep dari murid yang hanya menyerahkan output yang tampak rapi.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>ChatGPT tugas sekolah</code><code>copy paste AI</code><code>deteksi AI</code><code>tugas pakai Gemini</code></div><ul><li>Kebijakan nasional 2025–2026 mulai menekankan pemanfaatan AI yang aman, etis, transparan, dan tetap berpusat pada manusia.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Saat tugas rumah dikumpulkan — tidak ada jejak draf, percakapan, revisi, atau verifikasi lisan yang menunjukkan proses belajar murid.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m16" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">16</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Koding dan AI Masuk Kelas, Kesiapan Pedagogis Guru Belum Merata</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Koding dan kecerdasan artifisial mulai diperkenalkan sebagai mata pelajaran pilihan atau terintegrasi, dengan moda internet-based, plugged, dan unplugged.</li><li>Guru tidak hanya perlu menguasai alat, tetapi juga berpikir komputasional, evaluasi output, privasi, bias, etika, dan cara mengajar konsep tersebut tanpa bergantung pada koneksi.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Sekolah dengan guru siap dapat memberi pengalaman bermakna, sedangkan sekolah lain berhenti pada demonstrasi aplikasi. Murid menjadi pengguna teknologi, bukan pemecah masalah.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>guru belum siap mengajar AI</code><code>koding di sekolah</code><code>AI unplugged</code><code>etika AI siswa</code></div><ul><li>Kepmendikdasmen 127/P/2025 dan pedoman lintas kementerian 2026 mendorong implementasi bertahap sekaligus penguatan kapasitas pendidik.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Pertemuan pertama materi AI — guru memiliki perangkat atau modul, tetapi belum memiliki skenario aktivitas yang sesuai usia, konteks, dan tingkat kemampuan kelas.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m17" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">17</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Pelatihan Guru Tidak Menjadi Perubahan Kelas: Coaching Tidak Berkelanjutan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Pelatihan sering berakhir pada sertifikat dan materi; guru kembali ke kelas tanpa observasi, umpan balik, contoh perangkat, atau rekan untuk menguji praktik.</li><li>Program yang memiliki coaching dan pendampingan menunjukkan perubahan lebih kuat, tetapi dukungan berkelanjutan belum menjadi pengalaman semua guru.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Metode baru tidak bertahan, guru mengulang kebiasaan lama, dan investasi pelatihan tidak terlihat pada pengalaman belajar murid.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>pelatihan guru satu hari</code><code>lesson study</code><code>coaching guru</code><code>komunitas belajar</code></div><ul><li>Evaluasi World Bank atas Pendidikan Guru Penggerak menunjukkan manfaat pendampingan, sementara OECD menekankan pentingnya dukungan profesional yang terus-menerus.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Bulan pertama setelah pelatihan — tidak ada orang yang mengamati pembelajaran, memberi feedback, dan membantu guru memperbaiki rancangan berikutnya.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m18" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">18</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Praktikum IPA Berhenti di Demonstrasi: Murid Tidak Mengalami Inkuiri</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Praktikum sering diganti demonstrasi guru atau video; murid mengikuti langkah tanpa merumuskan pertanyaan, memilih bukti, dan mencatat data sendiri.</li><li>Guru menghadapi keterbatasan waktu, bahan, dan kepercayaan diri dalam merancang praktikum yang terintegrasi dengan tujuan pembelajaran.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Sains dipahami sebagai hafalan rumus, bukan proses menyelidiki. Keterampilan mengamati, mengukur, menjelaskan bukti, dan memecahkan masalah tidak terbentuk.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>praktikum IPA jarang</code><code>laboratorium hanya demonstrasi</code><code>virtual lab</code><code>keterampilan proses sains</code></div><ul><li>Studi di Selayar 2024 dan evaluasi laboratorium 2025 menunjukkan fasilitas yang ada belum otomatis membuat siswa aktif bereksperimen.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Dua jam pelajaran terakhir — waktu habis untuk menyiapkan alat, sehingga siswa tidak sempat membahas data dan menyusun kesimpulan.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m19" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">19</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Proyek P5 Berakhir di Produk: Proses Investigasi dan Transfer Tidak Terukur</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Proyek sering dinilai dari poster, pameran, atau produk akhir; pertanyaan autentik, pengumpulan bukti, revisi, refleksi, dan kontribusi individual tidak selalu dicatat.</li><li>Kegiatan proyek belum konsisten terhubung dengan konsep mata pelajaran dan masalah nyata di sekitar murid.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Produk tampak selesai tetapi pemahaman dangkal. Murid kesulitan menerapkan keterampilan ketika menghadapi konteks baru, praktik kerja, atau masalah nyata.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>P5 cuma bikin poster</code><code>proyek sekolah</code><code>project based learning</code><code>refleksi P5</code></div><ul><li>Evaluasi pembelajaran vokasi 2025 menilai project-based learning sudah meluas, tetapi kualitas inovasi dan transfer kompetensinya masih perlu diperkuat.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Hari pameran proyek — semua terlihat berhasil, tetapi tidak ada jejak yang menunjukkan bagaimana keputusan, kegagalan, dan revisi menghasilkan pembelajaran.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m20" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">20</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Tugas SMK Tidak Menyerupai Dunia Kerja: Teori, Praktik, dan Standar Industri Terputus</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Tugas dan alat praktik di sekolah belum selalu mencerminkan alur kerja, teknologi, standar mutu, keselamatan, dan komunikasi yang ditemui murid saat PKL.</li><li>Kemitraan DUDI kadang berhenti pada MoU atau kunjungan, belum menjadi brief proyek, rubrik, mentor, dan feedback bersama.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid membutuhkan waktu adaptasi panjang, sementara kesenjangan hard skills, komunikasi, inisiatif, dan problem-solving baru terlihat ketika masuk dunia kerja.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>SMK link and match</code><code>teaching factory</code><code>PKL tidak sesuai jurusan</code><code>skill gap lulusan</code></div><ul><li>Rapor Pendidikan 2025 menyoroti perlunya penyelarasan kurikulum, pengalaman praktik, dan kemitraan industri yang lebih kuat.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Masa transisi menuju PKL — murid membawa portofolio tugas sekolah yang tidak memakai standar dan bahasa kerja yang akan mereka hadapi.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m21" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">21</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">CP/TP Tidak Menjadi Tugas Otentik: Murid Tidak Tahu Standar Keberhasilan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Guru memiliki Capaian Pembelajaran dan Tujuan Pembelajaran, tetapi tugas masih berupa lembar jawaban yang tidak menunjukkan kompetensi yang ingin dibangun.</li><li>Kriteria keberhasilan dan rubrik tidak selalu dibahas sebelum murid mulai bekerja; penilaian lebih sering memeriksa produk akhir.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid menebak apa yang dianggap bagus, sulit memonitor kemajuan, dan menerima nilai tanpa memahami hubungan antara usaha, bukti, dan kompetensi.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>rubrik penilaian</code><code>tugas autentik</code><code>KKTP</code><code>asesmen kinerja</code></div><ul><li>OECD dan studi asesmen digital guru menekankan alignment antara tujuan, tugas, bukti, kriteria, dan feedback.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Sebelum tugas proyek dikumpulkan — murid baru mengetahui standar penilaian setelah pekerjaan selesai.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m22" data-cat="c-pendidikan">
+    <div class="top-row"><span class="num">22</span><span class="cat c-pendidikan">Pendidikan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Bahasa Pengantar Tidak Dipahami: Transisi Bahasa Ibu ke Bahasa Indonesia Belum Terstruktur</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Di kelas awal, banyak murid menggunakan bahasa daerah di rumah, tetapi langsung belajar melalui buku, instruksi, dan asesmen berbahasa Indonesia.</li><li>Guru sering mencampur bahasa secara spontan tanpa bahan dwibahasa atau tahapan transisi yang jelas.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Murid terlihat diam atau lambat bukan karena tidak mampu, melainkan belum memahami bahasa instruksi. Mereka lebih jarang bertanya, membaca, dan menunjukkan penalaran.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>bahasa ibu di kelas</code><code>transisi bahasa daerah</code><code>anak tidak paham Bahasa Indonesia</code><code>bilingual learning</code></div><ul><li>Program INOVASI di Nagekeo menunjukkan pendekatan transisi bahasa ibu membantu partisipasi dan literasi kelas awal.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Lima belas menit pertama pelajaran — guru bertanya dalam Bahasa Indonesia, murid memahami konsepnya tetapi tidak berani menjawab dengan bahasa yang dikuasainya.</div></div>
+    </div>
+  </article>
+
+  <h2 class="sect-title">Kesehatan (Healthcare) — 17 isu</h2>
+
+  <article class="card" id="m23" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">23</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Antre Subuh Faskes BPJS, Kuota Habis Pagi Hari</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Pasien datang 04.30–05.30 ambil nomor di Puskesmas/RSUD, kuota poli 60–100 habis jam 08.00. Lansia dan buruh harian harus bolos kerja.</li><li>Antre online sering error / sudah penuh. Dokter terbatas, pasien membludak.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Kehilangan upah harian Rp80–150rb demi berobat gratis, penyakit ditunda jadi kronis, kelelahan dan emosi di ruang tunggu sesak.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>antre puskesmas subuh</code><code>kuota BPJS habis</code><code>Mobile JKN susah</code><code>jam 5 pagi nomor 87</code></div><ul><li>TikTok antre subuh viral berulang.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di loket pendaftaran jam 07.00–09.00 — bottleneck antara keterbatasan dokter vs lonjakan pasien.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m24" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">24</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Obat BPJS Kosong, Harus Tebus di Luar</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Resep ditebus, petugas bilang "kosong, beli di apotek luar". Hipertensi, diabetes, antibiotik anak sering kosong.</li><li>Rantai e-katalog dan stok gudang putus. Pasien menebus Rp30–150rb atau pulang tanpa obat.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Putus obat kronis, dosis dibagi-bagi, beralih ke obat warung yang tidak tepat. Rasa dikhianati: sudah iuran tapi tetap bayar.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>obat BPJS kosong</code><code>tebus obat di luar</code><code>Komunitas Pasien BPJS</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di jendela farmasi — setelah antre dokter berjam-jam, stok putus tanpa info pengganti.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m25" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">25</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Posyandu Bolong, Kader Kelelahan, Ibu Tak Bisa Datang</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Buka sebulan sekali pagi hari, kader lansia tanpa honor layak, timbangan rusak, PMT monoton.</li><li>Ibu buruh tidak bisa izin, remaja hamil malu datang. Beban pencatatan berat.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Timbang-tumbuh terlewat, stunting terlambat terdeteksi, kader burnout dan data asal timbang.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>posyandu sepi</code><code>anak takut ditimbang</code><code>jadwal posyandu</code></div><ul><li>Keluhan di WA PKK/Dasawisma, jarang viral. ILP menuntut layani semua umur tanpa SDM.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di meja pendaftaran posyandu — jam buka bentrok jam kerja ibu, insentif kader tak sepadan beban.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m26" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">26</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Sakit Gigi dan Gangguan Mental Dianggap Bukan Penyakit</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Gigi berlubang ditahan obat warung, takut cabut karena mahal. Cemas, depresi postpartum, anak tantrum berat dianggap kurang iman / manja.</li><li>Psikolog hanya di RS kota, antre panjang dan stigma.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Anak absen sekolah karena sakit gigi, ibu depresi tanpa bantuan, produktivitas turun, kekerasan verbal dalam rumah tangga naik.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>sakit gigi sembuh sendiri</code><code>new mom stres</code><code>biaya psikolog mahal</code><code>puskesmas ada psikolog</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di persepsi "belum parah belum berobat" + tidak ada skrining rutin di layanan primer.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m27" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">27</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Ongkos Pendamping Sakit: Ambulans, Tunggu Inap, Makan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>BPJS tanggung pasien, tidak tanggung 1–2 pendamping. Sewa ambulans desa Rp300–800rb, tidur di selasar, beli makan warung RS 3× sehari.</li><li>Keluarga tunda rujukan ke RS kota karena takut ongkos.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Berutang mendadak, anak dititip ke tetangga berhari-hari, pendamping kelelahan ikut sakit susulan.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>biaya ambulans desa</code><code>penunggu pasien tidur di lorong</code><code>bantu biaya tunggu</code></div><ul><li>Muncul sebagai open donasi.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Fase rujukan antar-faskes dan rawat inap hari ke-2 ke atas — saat tabungan habis.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m28" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">28</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Leburan Pangan → Kesehatan</span><a class="solution-btn" href="solusi-isu-20-22-23.html#issue30">Lihat 5 solusi</a></div>
+    <h2 class="title">Kantin Sekolah dan Jajanan Ultra-Proses Rp2.000–5.000</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Anak SD bawa Rp5.000–10.000, pilihan dominan: mie lidi, seblak instan, minuman warna-warni, sosis goreng.</li><li>Kantin kejar sewa, jual yang laku dan tahan lama. Pengawasan lemah. Kini terhubung ke diabetes anak + obesitas (CKG).</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Gigi rusak, batuk pilek langganan, kenyang jajan malas makan siang, uang habis tapi gizi kosong. Bibit PTM sejak SD.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>jajan SD viral</code><code>anak batuk terus karena jajan</code><code>bekal anak tidak dimakan</code></div><ul><li>TikTok jajan viral, FB grup ibu-ibu.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di gerobak depan gerbang jam istirahat — 15 menit, murah, berwarna, dan peer pressure.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m29" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">29</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Leburan Pangan → Kesehatan</span></div>
+    <h2 class="title">Kenyang Karbo Saja: Nasi + Mie + Kerupuk</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Di rumah padat dan kos buruh, lauk protein hewani dianggap mewah. Menu: nasi + mie instan + telur dibagi dua + kerupuk + teh manis.</li><li>Sayur cepat basi tanpa kulkas, protein mahal. Inflasi pangan memaksa turun kualitas.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Stunting tersamar "gemuk tapi pendek", diabetes dini, anak lesu di sekolah. Malu mengakui tak mampu beli lauk.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>resep hemat akhir bulan</code><code>menu tanggal tua</code><code>makan mie + nasi</code></div><ul><li>Tidak dikeluhkan langsung, muncul sebagai konten hemat.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di piring makan malam — trade-off antara kenyang cepat vs protein yang mahal dan cepat basi.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m30" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">30</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span><a class="solution-btn" href="solusi-isu-20-22-23.html#issue32">Lihat 5 solusi</a></div>
+    <h2 class="title">Stunting 19,8% dan Beban Ganda: Kurus + Gemuk Bersamaan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>SSGI 2024: stunting 19,8% (4,4jt balita), turun dari 21,5% tapi di atas target 18,8%. Underweight justru naik. NTT 37% vs Bali 8,7%.</li><li>Anggaran sanitasi/Pamsimas dipangkas (Rp1,07T→Rp386M); MBG Rp268–335T fokus anak sekolah, bukan 1000 HPK.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>IQ dan tinggi badan hilang permanen; target RPJMN 14,2% (2029) dan 5% (2045) terancam. 6 provinsi menanggung beban terbesar.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>stunting anak pendek</code><code>berat badan tidak naik</code><code>MPASI protein hewani</code><code>MBG bergizi</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di meja timbang posyandu + dapur 1000 HPK — intervensi telat setelah lewat 2 tahun.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m31" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">31</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span><a class="solution-btn" href="solusi-isu-20-22-23.html#issue33">Lihat 5 solusi</a></div>
+    <h2 class="title">TBC Peringkat 2 Dunia: Sejuta Kasus, 2 Mati Tiap 5 Menit</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Estimasi 1–1,1jt kasus/th, 125–134rb mati/th. Penemuan 47–81%, terapi kontak serumah baru 8% dari target 72%.</li><li>Stigma, putus obat 6 bulan, gizi buruk, kos padat. Puskesmas lemah deteksi.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Produktivitas hilang, MDR mahal, eliminasi 2030 jauh. Lebih mematikan dari COVID.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>batuk 2 minggu</code><code>batuk darah TBC</code><code>obat TBC mual</code><code>SATU TB</code></div><ul><li>Program insentif FKTP + AI kepatuhan minum obat (pilot 6 kota).</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Tes dahak + rontgen + 6 bulan obat — titik putus di bulan ke-2.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m32" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">32</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">DBD Meledak Tiap Musim Hujan dan Anomali Cuaca</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Lonjakan awal tahun + cuaca ekstrem: genangan got, ban bekas, sumur terbuka jadi sarang. Fogging telat, abate langka.</li><li>Got mampet + sampah plastik menahan air.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Anak opname 3–5 hari Rp3–8jt, ortu bolos kerja, KLB berulang. Demam disangka tipes.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>DBD naik</code><code>fogging telat</code><code>jus jambu trombosit</code><code>vaksin dengue</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Jumantik + ember bak mandi — 10 menit/minggu yang tak dikerjakan.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m33" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">33</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Diabetes Tipe-2 Kini Menjangkiti Anak SMP</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Wamenkes 2026: T2DM muncul di SMP. CKG: hipertensi 21% anak, obesitas 7% mendekati gizi kurang.</li><li>Minuman gula + ultra-proses, mager, begadang, stres. Berjalan agresif pada remaja.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Cuci darah usia 20-an, kebutaan, amputasi. Klaim katastropik BPJS meledak.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>anak SMP diabetes</code><code>nutri-level A B C D</code><code>cukai minuman manis</code></div><ul><li>Label nutri-level + CKG 25jt anak.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di kantin + minimarket sekolah — label tak dibaca, yang manis yang laku.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m34" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">34</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Mental Remaja: 15,5 Juta Bermasalah, 2,45 Juta Gangguan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>I-NAMHS: 34,9% (15,5jt) masalah, 5,5% (2,45jt) gangguan; cemas 26,7% dominan. CKG 2025–26: 4,4% cemas + 4,8% depresi dari 7jt anak.</li><li>Percobaan bunuh diri 3,9% (2015)→10,7% (2023). Hanya 2% mengakses layanan.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>DO, self-harm, bunuh diri. Ortu menganggap manja/kurang iman. Medsos &gt;2 jam/hari memperparah.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>remaja cemas depresi</code><code>self harm</code><code>psikolog gratis</code><code>skrining jiwa tahunan</code></div><ul><li>SKB 9 kementerian + Healing Center Puskesmas (SDM terbatas).</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Skrining 1x/tahun + konseling sekolah — terdeteksi tapi tak tertangani.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m35" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">35</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">BPJS Defisit Rp20–30 Triliun: Klaim Telat, RS Nombok</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Kemenkes proyeksi defisit Rp20–30T (2026). 25% klaim tersedot jantung + gagal ginjal. Iuran menunggak, biaya spesialis melonjak.</li><li>Subsidi silang (PBI aman, mandiri atas naik) belum menutup.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Klaim telat berbulan-bulan, obat kosong, pasien dipingpong. Wacana co-payment membebani.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>BPJS defisit</code><code>klaim RS telat</code><code>iuran naik</code><code>telemedicine BPJS</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di kasir + verifikasi klaim — data SIMRS tak sinkron, klaim mental.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m36" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">36</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Krisis Dokter Spesialis: 59% Menumpuk di Jawa</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>59% spesialis di Jawa; Gini 0,53 sangat timpang. 266/415 RSUD tanpa 7 spesialis dasar. Kota:rasio 1,1 vs desa 0,27/1000.</li><li>Kurang 65rb (2032); produksi 2.700/th vs butuh 32rb/th.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Rujuk ratusan km, antre operasi berbulan-bulan, mati dalam antrean. NTT hanya 1–3% spesialis.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>cari dokter spesialis</code><code>rujuk RS jauh</code><code>antre operasi</code><code>Academic Health System</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Surat rujukan + afirmasi daerah asal — lulus spesialis tak kembali ke timur.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m37" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">37</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Karies &gt;40% dan Anemia 27%: Anak Sakit yang Tak Dianggap</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>CKG 7jt+ anak: karies terbanyak (&gt;40%), anemia 27%, tekanan darah naik, serumen 7%, gangguan dengar-lihat SD.</li><li>Sikat gigi bolong, jajanan manis, tablet tambah darah putri bolong.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Absen, lesu, prestasi jatuh. Tambal gigi mahal, cabut ditakuti.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>gigi anak berlubang</code><code>anemia remaja putri</code><code>UKS gigi</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">UKS + sikat gigi massal — program ada, jalan kalau ada lomba.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m38" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">38</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Cek Kesehatan Gratis Terdeteksi, Tapi Tak Diobati</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>CKG skrining 7jt→target 25jt anak; hipertensi-diabetes ditemukan tapi Puskesmas tanpa obat/psikolog. 2026 baru masuk tatalaksana.</li><li>SATUSEHAT hanya lapor ke pusat, alur internal RS (rekam-kasir-farmasi) tak sinkron.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Data menumpuk tanpa terapi; klaim BPJS tertunda karena RME tak terintegrasi.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>cek kesehatan gratis</code><code>hasil CKG tidak ditindaklanjuti</code><code>SATUSEHAT</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Meja rujukan Puskesmas — kertas hasil tanpa jadwal kontrol + obat.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m39" data-cat="c-kesehatan">
+    <div class="top-row"><span class="num">39</span><span class="cat c-kesehatan">Kesehatan</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Kematian Ibu-Anak dan ANC yang Bolong</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Ibu hamil kurang ANC, anemia, KEK; remaja hamil malu ke posyandu; persalinan telat dirujuk. Buku KIA tak dibaca.</li><li>Bidan jauh, transport mahal, biaya pendamping tak ditanggung.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Stunting antar-generasi, bayi prematur, ibu depresi. Pelatihan nakes terdampak efisiensi.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>periksa hamil gratis</code><code>tablet tambah darah mual</code><code>lahiran di dukun</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Buku KIA + kunjungan ke-4 — putus di trimester akhir saat risiko tertinggi.</div></div>
+    </div>
+  </article>
+
+  <h2 class="sect-title">Sustainability (Lingkungan) — 16 isu</h2>
+
+  <article class="card" id="m40" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">40</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Leburan Pangan → Sustainability</span></div>
+    <h2 class="title">Harga Beras, Cabai, Minyak, Telur Naik-Turun Tak Terprediksi</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Ibu rumah tangga dan warteg kelimpungan saat beras naik Rp2.000–3.000/kg atau cabai tembus Rp80–100rb.</li><li>Rantai distribusi panjang + musim + iklim + spekulasi. Ganti ke beras curah rendah, minyak curah pakai ulang.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Porsi dikurangi diam-diam, lauk hewani hilang 2–3 hari/minggu, pedagang margin habis tapi tak berani naikkan harga. Pemicu stunting.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>beras naik lagi</code><code>belanja 50rb dapat apa</code><code>harga cabai hari ini</code><code>minyak goreng langka</code></div><ul><li>Memuncak tiap Ramadan/Lebaran, Google Trends pangan.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di kios warung dan meja dapur harian — "masak apa hari ini" ditentukan harga pagi itu, bukan gizi.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m41" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">41</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Leburan Pangan → Sustainability</span></div>
+    <h2 class="title">Tanpa Kulkas: Sayur dan Lauk Cepat Basi, Belanja Eceran Mahal</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Kontrakan petak dan rumah kampung tanpa kulkas / listrik token terbatas. Belanja harian eceran 20–40% lebih mahal dari grosir mingguan.</li><li>Sisa masakan dibiarkan, dipanaskan ulang berkali-kali. Kulkas second boros token.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Waktu habis tiap pagi ke warung, diare ringan, token terkuras. Rantai dingin rumah tangga putus → food waste + gizi hilang.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kulkas boros listrik</code><code>cara simpan sayur tanpa kulkas</code><code>patungan kulkas kos</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di dapur kontrakan 2×3 meter — tidak ada rantai dingin, semua harus habis hari itu juga.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m42" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">42</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">TPS Liar dan Bakar Sampah Setiap Sore</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Iuran Rp15–30rb dianggap berat, truk tidak masuk gang. Warga buang ke kali, lahan kosong, lalu bakar jam 16.00–18.00.</li><li>Asap masuk rumah tetangga. Perempuan yang disalahkan urus sampah.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>ISPA kronis, konflik tetangga diam-diam, selokan tersumbat popok dan plastik.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>tetangga bakar sampah</code><code>asap sampah masuk rumah</code></div><ul><li>Lapor aplikasi warga tapi lambat.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">100 meter terakhir angkutan sampah — dari gang ke TPS resmi tidak ada yang angkut.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m43" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">43</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Got Mampet dan Banjir Genangan 30–50 cm Langganan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Got depan rumah dangkal penuh minyak dapur dan sampah. Hujan 1 jam, air masuk dapur, kasur diangkat ke meja.</li><li>Surut 3–5 jam tinggalkan lumpur. Gotong royong mati, kerja bakti hanya jelang 17 Agustus.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Elektronik rusak, anak tak bisa sekolah, ibu lembur 2 jam bersihkan lumpur, trauma tiap mendung gelap.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>banjir depan rumah</code><code>gotong kasur banjir</code><code>hujan sejam banjir</code><code>info ketinggian air</code></div><ul><li>TikTok banjir, grup RT info air.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di gorong-gorong depan rumah masing-masing — tidak ada pemilik jelas untuk sedimen dan sampah.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m44" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">44</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Air Sumur Bau, Payau, Berminyak: Ketergantungan Galon</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Sumur bor dangkal tercemar septic tank dan intrusi air laut di pesisir. Air mandi bikin gatal, masak harus beli galon.</li><li>PAM tidak masuk kampung atau macet. Galon isi ulang Rp5–7rb bertahan 1–2 hari.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Galon Rp150–250rb/bulan ≈10% upah, anak mandi air asin kulit bentol, ibu angkut galon dengan motor.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>air sumur bau besi</code><code>air kuning</code><code>galon naik harga</code><code>info air bersih</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di ember kamar mandi — air ada tapi tidak layak, beli terus tapi tak selesaikan sumber.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m45" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">45</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-lama">Isu lama</span></div>
+    <h2 class="title">Rumah Gerah: Kontrakan Seng, Triplek, Tanpa Ventilasi</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Kontrakan 3×4 dihuni 4–5 orang, atap seng/asbes, 1 jendela kecil. Siang 33–36°C, malam pengap kipas muter angin panas.</li><li>Tidak ada ruang resapan dan ventilasi silang.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Dehidrasi, emosi mudah meledak, KDRT verbal naik saat panas, token kipas membengkak, tidur bergilir di teras.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kontrakan panas banget</code><code>cara adem tanpa AC</code><code>kipas vs AC kos</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Jam 12.00–15.00 dan 21.00–01.00 — panas puncak dan tidak bisa tidur.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m46" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">46</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Polusi Udara Jabodetabek 6–11 Kali Lipat Ambang WHO</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>IQAir 2024: RI terburuk SE-Asia, No.15 dunia. Jabodetabek 30–61 µg/m3 vs ambang WHO 5 µg/m3. Tangsel, Purwakarta, Tangerang teratas.</li><li>Kendaraan, industri, PLTU batu bara pre-2019 (emisi 2x), bakar lahan + kemarau El Nino.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>2.500 mati prematur + rugi Rp5,1T/th (Jabodetabek). ISPA, asma, kanker, anak bolos. Sensor AS ditutup 2025, data menipis.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>Jakarta polusi hari ini</code><code>ISPA batuk tak sembuh</code><code>PLTU polusi</code><code>masker polusi</code></div><ul><li>Gugatan warga + protes tiap kemarau.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Musim kemarau + jam berangkat — tanpa standar + penindakan, imbauan tak mempan.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m47" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">47</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Darurat Sampah Nasional: 143 Ribu Ton/Hari, Terkelola 24%</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Timbulan 143.824 ton/hari, terkelola 24% (target 51% → 100% 2029). 60,7% (312) TPA open dumping.</li><li>Kumpul-angkut-buang, Perda + anggaran minim, pilah dari sumber (UU 18/2008, PP 81/2012) 15 tahun tanpa sanksi.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>TPA overcapacity 1200%, lindi ke sumur, banjir sampah. APBD tak sanggup tanpa pilah warga.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>darurat sampah</code><code>TPA penuh</code><code>pilah sampah rumah</code><code>bank sampah</code></div><ul><li>KLH: setop open dumping akhir 2026.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Di dapur + TPS gang — pilah yang menentukan, tapi tanpa insentif + jemput.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m48" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">48</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Bom Metana Bantargebang No.2 Dunia + TPA Terbakar</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Bantargebang 6,3 ton metana/jam (105rb ton/th), No.2 dunia. 80jt ton menumpuk 50m; longsor 7 mati. 35 TPA terbakar (2023), 23 (2026).</li><li>Organik ditimbun anaerob; gas + lindi tanpa olah. Emisi metana sampah naik 3.700% (1990–2019).</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Metana 80x CO2 (20 th), kebakaran + PM2.5/dioksin → ISPA massal. Target -30% (2030) justru naik 7%.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>TPA kebakaran</code><code>bau sampah</code><code>gas metana</code><code>maggot kompos</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Zona timbun + musim kemarau — organik harus berhenti masuk TPA via pilah-kompos-maggot.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m49" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">49</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Plastik ke Laut dan Bakar Terbuka 77%</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Target -70% sampah laut 2025 gagal; 54% tak terkelola. 77% emisi plastik dari bakar terbuka di TPS liar, jalan, bantaran.</li><li>Sachet sekali pakai, EPR produsen lemah, hotspot Jabar-Jatim-Jateng.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Drainase mampet → banjir, mangrove/terumbu rusak, nelayan + wisata rugi, biaya bersih pantai naik.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>sampah plastik sungai</code><code>bakar sampah sesak</code><code>bersih pantai</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Selokan + gerobak sampah — plastik bernilai rendah tak dipungut, dibakar paling gampang.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m50" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">50</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Banjir Rob, Subsiden 15–25 cm/Th, Pesisir Tenggelam</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Jakarta turun 7–25 cm/th; 60% andalkan air tanah (cadangan 36%). Mangrove hilang, reklamasi, laut naik. Muara Angke rob langganan.</li><li>Banjir Jakarta rugi Rp2,1T/th.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Rumah di bawah laut, tambak gagal, abrasi Pari 42ha, infrastruktur retak. Masyarakat miskin pesisir paling kena.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>banjir rob Muara Angke</code><code>tanah turun</code><code>giant sea wall</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Sumur bor + tanggul — batasi ekstraksi + pipanisasi PAM vs kebutuhan harian.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m51" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">51</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Krisis Air Bersih Tiap El Nino: 4,8 Juta Jiwa Kekeringan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>BNPB: 4,87jt terdampak kekeringan; debit PAM drop; petani Bekasi rugi puluhan juta. Jeriken Rp5–10rb.</li><li>Resapan hilang, sungai tercemar, Godzilla El Nino 2026 diprediksi BRIN.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Antre tangki, diare, ongkos air 10% upah. Kelas bawah beli paling mahal per liter.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kekeringan air bersih</code><code>harga jeriken naik</code><code>distribusi tangki air</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Kran + tangki + sumur resapan — lindungi resapan + batasi tanah vs pasok darurat.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m52" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">52</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Minim RTH dan Pulau Panas Perkotaan</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>Jakarta RTH 5,2%, Tangsel 8,5% vs ideal 30%. Suhu +1,6°C/130th. Beton vs pohon.</li><li>Mal + apartemen gantikan kebun dan resapan.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Udara pengap, anak tak ada main, banjir + panas berlipat. Listrik kipas/AC membengkak.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kota panas banget</code><code>taman kota digusur</code><code>urban heat island</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Lahan kosong 100–500 m² — taman vs parkir vs ruko.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m53" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">53</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Karhutla dan Deforestasi 1,1 Juta Ha/Tahun</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>1,1jt ha hutan hilang/th. 26,5jt ha hutan dalam izin ekstraktif (PBPH 21,1jt, tambang 4,7jt). Gambut dibakar.</li><li>Sawit, tambang, food estate; perizinan dipermudah, perlindungan melemah.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Kabut asap lintas provinsi, satwa terusir, banjir-longor setelah gundul. 40% hutan hilang berdekade-dekade.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>kabut asap</code><code>hutan dibabat</code><code>banjir bandang</code><code>longsor</code></div><ul><li>WALHI: pertumbuhan sebagai gerbang bencana.</li></ul></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Peta konsesi vs hutan adat — izin terbit, warga tergusur.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m54" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">54</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-makro">Makro</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">Food Estate, Rempang, dan Perampasan Ruang Hidup</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>PSN pangan-energi (Merauke, Kalteng), Rempang Eco-City: tata ruang diterobos, hutan dibuka atas nama ketahanan.</li><li>Kritik dibalas kriminalisasi/SLAPP; aparat masuk tata kelola SDA.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Petani-nelayan hilang lahan, pangan lokal hancur, konflik berkepanjangan. Ongkos dipikul generasi depan.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>tolak food estate</code><code>Rempang digusur</code><code>kriminalisasi petani</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Patok lahan + AMDAL — musyawarah tanpa persetujuan bebas.</div></div>
+    </div>
+  </article>
+
+  <article class="card" id="m55" data-cat="c-lingkungan">
+    <div class="top-row"><span class="num">55</span><span class="cat c-lingkungan">Sustainability</span><span class="skala skala-mikro">Mikro — Unnoticed</span><span class="tag tag-baru">Isu baru • Tren 2016–2026</span></div>
+    <h2 class="title">PLTU Dekat Kota dan Limbah Cair Masuk Sungai</h2>
+    <div class="grid2">
+      <div class="box deskripsi"><h3>Realitas Lapangan &amp; Akar Penyebab</h3><ul><li>PLTU pre-2019 dekat Jakarta tanpa standar ketat; pabrik buang limbah cair tanpa IPAL; pestisida ke sungai. 11jt tanpa air bersih.</li><li>Pengawasan + penindakan lemah; data emisi tak transparan.</li></ul></div>
+      <div class="box dampak"><h3>Dampak &amp; Kerugian Tersembunyi</h3><ul><li>Terumbu-ikan mati, kolera-diare, gagal ginjal. Nelayan + warteg air tercemar.</li></ul></div>
+      <div class="box tren"><h3>Pola Tren &amp; Kata Kunci Keluhan</h3><div class="kw"><code>sungai tercemar limbah</code><code>air bau kimia</code><code>ikan mati massal</code></div></div>
+      <div class="box celah"><h3>Point of Friction</h3><div class="gap-callout">Outlet limbah + baku mutu — sidak jarang, denda tak jera.</div></div>
+    </div>
+  </article>
+
+  </div>
+
+  <div class="toc">
+    <h2>Sintesis Hackathon: Pola Kunci 2016–2026 untuk 3 Topik</h2>
+    <p style="font-size:14.5px;color:#0f172a">Benang merah bukan sekadar kemiskinan uang, tapi <b>kemiskinan waktu</b> (antre subuh BPJS/PPDB, jemput air), <b>kemiskinan ruang</b> (kelas 40 anak, kontrakan 3×4, got 30cm, TPA 50m), dan <b>kemiskinan kepastian</b> (kuota, harga pangan, diagnosis). <b>Education:</b> ATS jutaan + capaian PISA yang masih rendah + alur kurikulum yang terputus + kualitas instruksi, feedback, asesmen, inklusi, AI, praktikum, dan bahasa pengantar yang belum merata. <b>Healthcare:</b> beban ganda — TBC/DBD/stunting belum tuntas + PTM dan masalah mental anak meningkat — sementara skrining harus tersambung ke tindak lanjut. <b>Sustainability:</b> sampah tidak terkelola, polusi, rob/subsiden, kekeringan, kebakaran hutan, dan transisi energi saling memperkuat. Masalah mikro harian (feedback tugas, asesmen, tugas AI, bahasa kelas, pilah sampah, ember bak) justru paling sistemis karena menumpuk <b>setiap hari</b>. Dokumen ini hanya pembongkaran masalah — belum masuk solusi (ruang ide hackathon).</p>
+  </div>
+
+  <div class="toc">
+    <h2>Basis Tren dan Rujukan</h2>
+    <p>Angka pada kartu dipakai sebagai sinyal masalah, bukan klaim prevalensi untuk setiap daerah. Peserta tetap perlu memvalidasi data lokal sebelum membuat prototipe. Data pengelolaan sampah SIPSN, khususnya, bersifat indikatif karena bergantung pada kabupaten/kota yang melakukan input.</p>
+    <div class="grid2">
+      <div class="box tren"><h3>Education</h3><ul><li><a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/indonesia_9c880f8a-en.html" target="_blank" rel="noopener">OECD — PISA 2025 Country Note: Indonesia</a></li><li><a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2024/01/transforming-education-in-indonesia_020ff435/9ff8d407-en.pdf" target="_blank" rel="noopener">OECD — Transforming Education in Indonesia</a></li><li><a href="https://documents1.worldbank.org/curated/en/099090924033026750/pdf/P174815141d70e0a21b0301c60dda143cba.pdf" target="_blank" rel="noopener">World Bank — Teacher Practices in Indonesia</a></li><li><a href="https://documents1.worldbank.org/curated/en/099042224202520319/pdf/P17481518584b50aa1b6821291769b3ffb7.pdf" target="_blank" rel="noopener">World Bank — Evaluasi Pendidikan Guru Penggerak</a></li><li><a href="https://www.inovasi.or.id/wp-content/uploads/2022/05/2022_beyond-letters-numbers-covid-19-pandemic-foundational-literacy-numeracy-indonesia_inovasi.pdf" target="_blank" rel="noopener">INOVASI — Learning Gap Study</a></li><li><a href="https://www.inovasi.or.id/wp-content/uploads/2022/06/Learning-Gap-Series-Two-Reforming-Indonesias-curriculum-FIN_compressed.pdf" target="_blank" rel="noopener">INOVASI — Reforming Indonesia's Curriculum</a></li><li><a href="https://www.inovasi.or.id/publication/belajar-jadi-lebih-mudah-berkat-kekuatan-bahasa-daerah-di-sekolah/" target="_blank" rel="noopener">INOVASI — Transisi Bahasa Ibu ke Bahasa Indonesia</a></li><li><a href="https://smk.kemendikdasmen.go.id/produk-hukum/keputusan-menteri-pendidikan-dasar-dan-menengah-republik-indonesia-nomor-127p2025-tentang-pedoman-implementasi-koding-dan-kecerdasan-artifisial-pada-pendidikan-anak-usia-dini-jenjang-pendidikan-dasar-dan-jenjang-pendidikan-menengah" target="_blank" rel="noopener">Kemendikdasmen — Pedoman Koding dan Kecerdasan Artifisial</a></li><li><a href="https://puslapdik.kemendikdasmen.go.id/kemendikdasmen-perkuat-data-anak-tidak-sekolah/" target="_blank" rel="noopener">Kemendikdasmen — Dasbor Anak Tidak Sekolah 2026</a></li><li><a href="https://pskp.kemendikdasmen.go.id/file/kebijakan/1767151837_file.pdf" target="_blank" rel="noopener">Rapor Pendidikan Indonesia 2025</a></li></ul></div>
+      <div class="box tren"><h3>Healthcare</h3><ul><li><a href="https://www.kemkes.go.id/eng/ssgi-2024-prevalensi-stunting-nasional-turun-menjadi-198/" target="_blank" rel="noopener">Kemenkes — SSGI 2024</a></li><li><a href="https://cdn.who.int/media/docs/default-source/searo/indonesia/non-who-publications/laporan-hasil-studi-inventori-tb-indonesia-2023-2024.pdf" target="_blank" rel="noopener">WHO/Kemenkes — Studi Inventori TBC 2023–2024</a></li><li><a href="https://www.kemkes.go.id/id/tahun-2026-kemenkes-fokuskan-ckg-pada-penanganan-hasil-pemeriksaan" target="_blank" rel="noopener">Kemenkes — Tindak lanjut Cek Kesehatan Gratis 2026</a></li></ul></div>
+      <div class="box tren"><h3>Sustainability</h3><ul><li><a href="https://sipsn.menlhk.go.id/sipsn/" target="_blank" rel="noopener">SIPSN — Data Pengelolaan Sampah Nasional</a></li><li><a href="https://www.bps.go.id/id/publication/2020/11/27/5a798b6b8a86079696540452/statistik-lingkungan-hidup-indonesia-2020.html" target="_blank" rel="noopener">BPS — Statistik Lingkungan Hidup Indonesia</a></li><li><a href="https://unfccc.int/sites/default/files/resource/Indonesia%20NID1.pdf" target="_blank" rel="noopener">Indonesia — National Greenhouse Gas Inventory 2000–2022</a></li></ul></div>
+       <div class="box celah"><h3>Cara Membaca</h3><div class="gap-callout">21 kartu Education bertanda <b>Isu baru • Tren 2016–2026</b> ditambahkan dengan fokus proses belajar-mengajar. Kartu lama dipertahankan hanya jika masih berada di dalam salah satu dari tiga tema lomba.</div></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>Catatan hackathon JOINTS:</b> Inventarisasi 55 isu (22 Education + 17 Healthcare + 16 Sustainability), 2016–2026. 14 isu lama dipertahankan (1 Pendidikan + 7 Kesehatan + 4 Lingkungan + 2 Pangan dilebur); isu di luar tiga tema tidak ditampilkan; 41 isu baru berbasis tren (pembelajaran, PISA, AI, inklusi, kesehatan, sampah, polusi, dan iklim). Sumber: observasi + etnografi digital + literatur kebijakan.<br>
+    File lokal: <i>inventarisasi-25-masalah-mikro-makro.html</i> (diperbarui → 55 isu)
+  </div>
+</footer>
+
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Atas</button>
+<script>
+  const search = document.getElementById('search');
+  const filter = document.getElementById('filter');
+  const count = document.getElementById('count');
+  const cards = [...document.querySelectorAll('article.card')];
+  const tocGrid = document.querySelector('.toc-grid');
+  const toc = tocGrid.closest('.toc');
+  const tocTitle = toc.querySelector('h2');
+  const tocIntro = toc.querySelector('p');
+  const tocName = tocTitle.textContent.trim();
+  tocGrid.id = 'toc-links';
+  tocIntro.id = 'toc-description';
+
+  const tocToggle = document.createElement('button');
+  tocToggle.type = 'button';
+  tocToggle.className = 'toc-toggle';
+  tocToggle.setAttribute('aria-expanded','true');
+  tocToggle.setAttribute('aria-controls','toc-description toc-links');
+  tocToggle.setAttribute('aria-label','Tutup ' + tocName);
+  tocToggle.innerHTML = '<span class="toc-toggle-icon" aria-hidden="true"></span>';
+  const tocLabel = document.createElement('span');
+  tocLabel.className = 'toc-label';
+  tocLabel.textContent = tocName;
+  tocTitle.classList.add('toc-dropdown-title');
+  tocTitle.textContent = '';
+  tocTitle.append(tocLabel,tocToggle);
+  tocToggle.addEventListener('click',event=>{
+    event.stopPropagation();
+    const isOpen = !toc.classList.toggle('toc-collapsed');
+    tocToggle.setAttribute('aria-expanded',String(isOpen));
+    tocToggle.setAttribute('aria-label',(isOpen ? 'Tutup ' : 'Buka ') + tocName);
+  });
+  tocTitle.addEventListener('click',()=>tocToggle.click());
+
+  [
+    ['#m1','Pendidikan (Education) — 22 isu'],
+    ['#m23','Kesehatan (Healthcare) — 17 isu'],
+    ['#m40','Sustainability (Lingkungan) — 16 isu']
+  ].forEach(([href,label])=>{
+    const link = tocGrid.querySelector('a[href="' + href + '"]');
+    if(!link) return;
+    const divider = document.createElement('div');
+    divider.className = 'toc-section-divider';
+    divider.textContent = label;
+    tocGrid.insertBefore(divider,link);
+  });
+
+  const sectionControls = new Map();
+  const sectionTitles = [...document.querySelectorAll('.sect-title')];
+  sectionTitles.forEach(title=>{
+    const sectionName = title.textContent.trim();
+    const isInitiallyOpen = sectionName.startsWith('Pendidikan');
+    const sectionCards = [];
+    let sibling = title.nextElementSibling;
+    while(sibling && !sibling.classList.contains('sect-title')){
+      if(sibling.matches('article.card')) sectionCards.push(sibling);
+      sibling = sibling.nextElementSibling;
+    }
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'section-toggle';
+    toggle.setAttribute('aria-expanded',String(isInitiallyOpen));
+    toggle.setAttribute('aria-controls',sectionCards.map(card=>card.id).join(' '));
+    toggle.setAttribute('aria-label',(isInitiallyOpen ? 'Tutup ' : 'Buka ') + sectionName);
+    toggle.innerHTML = '<span class="section-toggle-icon" aria-hidden="true"></span>';
+    const label = document.createElement('span');
+    label.className = 'section-label';
+    label.textContent = sectionName;
+    title.textContent = '';
+    title.append(label,toggle);
+    title.classList.toggle('collapsed',!isInitiallyOpen);
+    sectionCards.forEach(card=>{
+      card.classList.toggle('section-collapsed',!isInitiallyOpen);
+      sectionControls.set(card.id,{title,toggle});
+    });
+    toggle.addEventListener('click',event=>{
+      event.stopPropagation();
+      const isOpen = !title.classList.toggle('collapsed');
+      sectionCards.forEach(card=>card.classList.toggle('section-collapsed',!isOpen));
+      toggle.setAttribute('aria-expanded',String(isOpen));
+      toggle.setAttribute('aria-label',(isOpen ? 'Tutup ' : 'Buka ') + sectionName);
+      apply();
+    });
+    title.addEventListener('click',()=>toggle.click());
+  });
+  tocGrid.querySelectorAll('a[href^="#m"]').forEach(link=>{
+    link.addEventListener('click',()=>{
+      const control = sectionControls.get(link.hash.slice(1));
+      if(control && control.title.classList.contains('collapsed')) control.toggle.click();
+    });
+  });
+  function apply(){
+    const q = search.value.toLowerCase().trim();
+    const f = filter.value;
+    let n = 0;
+    cards.forEach(c=>{
+      const okCat = (f==='all' || c.dataset.cat===f);
+      const okQ = (!q || c.textContent.toLowerCase().includes(q));
+      const show = okCat && okQ;
+      c.classList.toggle('hidden', !show);
+      if(show && !c.classList.contains('section-collapsed')) n++;
+    });
+    count.textContent = n + ' masalah ditampilkan';
+  }
+  search.addEventListener('input', apply);
+  filter.addEventListener('change', apply);
+  apply();
+  window.addEventListener('scroll', ()=>{
+    document.getElementById('toTop').style.display = window.scrollY > 600 ? 'block' : 'none';
+  });
+</script>
+</body>
+</html>

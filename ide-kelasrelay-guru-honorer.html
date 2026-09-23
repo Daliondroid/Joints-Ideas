@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KelasRelay: Ide Sistem untuk Isu Guru Honorer | Hackathon JOINTS</title>
+<style>
+  :root{
+    --bg:#0f172a; --ink:#0f172a; --muted:#64748b; --card:#fff;
+    --soft:#f8fafc; --line:#e2e8f0; --purple:#7c3aed; --purple-dark:#5b21b6;
+    --teal:#0d9488; --blue:#2563eb; --green:#15803d; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--soft);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.65}
+  a{color:var(--purple-dark)}
+  .wrap{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+  header.hero{position:relative;overflow:hidden;color:#fff;padding:56px 24px 44px;background:linear-gradient(135deg,#0f172a 0%,#115e59 38%,#2563eb 70%,#7c3aed 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 84% 14%,rgba(255,255,255,.28),transparent 34%)}
+  .eyebrow{display:inline-block;padding:6px 13px;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.16);border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.3px}
+  h1{max-width:930px;margin:16px 0 10px;font-size:clamp(28px,5vw,50px);line-height:1.12}
+  .lead{max-width:920px;margin:0;font-size:clamp(14px,2vw,18px);opacity:.96}
+  .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .meta span{padding:6px 11px;border-radius:999px;background:rgba(0,0,0,.28);font-size:13px}
+  nav.toolbar{position:sticky;top:0;z-index:20;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .toolbar-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .toolbar a,.print-btn{display:inline-block;text-decoration:none;border:0;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:800;cursor:pointer}
+  .toolbar a{background:var(--ink);color:#fff}
+  .toolbar a.secondary{background:#ede9fe;color:var(--purple-dark)}
+  .print-btn{background:#e0f2fe;color:#075985}
+  main{max-width:1160px;margin:0 auto;padding:28px 16px 64px}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:25px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .metric strong{display:block;color:var(--purple);font-size:25px;line-height:1.1}
+  .metric small{color:var(--muted)}
+  .notice{padding:15px 17px;margin-bottom:26px;border:1px solid #c4b5fd;border-radius:14px;background:#f5f3ff;color:#312e81;font-size:14px}
+  .problem-frame,.concept-panel,.validation{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:28px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .problem-frame{border-left:6px solid var(--amber)}
+  .problem-frame h2,.concept-panel h2,.validation h2{margin:0 0 8px;font-size:24px}
+  .problem-frame p,.concept-panel p,.validation p{margin:0;font-size:14.5px}
+  .problem-frame strong{color:#92400e}
+  .section-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-bottom:32px}
+  .section-nav a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink);font-weight:800}
+  .section-nav a:hover{border-color:var(--purple);color:var(--purple-dark)}
+  .section-nav small{display:block;color:var(--muted);font-weight:400}
+  .concept-panel{background:linear-gradient(135deg,#fff 0%,#f5f3ff 100%);border-color:#c4b5fd}
+  .concept-panel .label{color:var(--purple-dark);font-size:12px;font-weight:900;letter-spacing:.6px;text-transform:uppercase}
+  .concept-panel h2{font-size:clamp(25px,4vw,36px);color:var(--purple-dark)}
+  .concept-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+  .concept-box{padding:15px;border:1px solid #ddd6fe;border-radius:13px;background:rgba(255,255,255,.75)}
+  .concept-box h3{margin:0 0 5px;font-size:14px;color:var(--purple-dark)}
+  .concept-box p{font-size:13.5px}
+  .research-section{scroll-margin-top:78px;margin-top:38px}
+  .research-head{display:flex;gap:13px;align-items:flex-start;padding:20px;border-radius:16px;margin-bottom:16px;color:#fff}
+  .research-head.teal{background:linear-gradient(120deg,#115e59,#0d9488)}
+  .research-head.blue{background:linear-gradient(120deg,#1e3a8a,#2563eb)}
+  .research-head.green{background:linear-gradient(120deg,#14532d,#15803d)}
+  .research-head.purple{background:linear-gradient(120deg,#4c1d95,#7c3aed)}
+  .research-number{display:inline-grid;place-items:center;min-width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.2);font-size:22px;font-weight:900}
+  .research-head h2{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.2}
+  .research-head p{margin:5px 0 0;opacity:.92;font-size:14px}
+  .breakdown{padding:16px 18px;margin-bottom:14px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a}
+  .breakdown h3{margin:0 0 5px;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+  .breakdown p{margin:0;font-size:14.5px}
+  .research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .research-box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .research-box h3{margin:0 0 7px;color:var(--purple-dark);font-size:13px;text-transform:uppercase;letter-spacing:.45px}
+  .research-box p{margin:0;font-size:14px}
+  .research-box ul{margin:5px 0 0;padding-left:19px;font-size:14px}
+  .research-box li{margin-bottom:5px}
+  .source{margin-top:11px!important;color:var(--muted);font-size:12.5px!important}
+  .source a{font-weight:700}
+  .keywords{background:#f8fafc}
+  .keywords code{display:inline-block;margin:4px 4px 0 0;padding:4px 8px;border-radius:999px;background:#0f172a;color:#fff;font-size:12px}
+  .phase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+  .phase{padding:15px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}
+  .phase strong{display:block;color:var(--teal);font-size:13px;letter-spacing:.4px}
+  .phase h3{margin:5px 0;font-size:17px}
+  .phase p{font-size:13.5px}
+  .validation{margin-top:38px;border-left:6px solid var(--green)}
+  .validation ul{margin:8px 0 0;padding-left:20px;font-size:14px}
+  .sources{margin-top:28px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+  .sources h2{margin:0 0 6px;font-size:21px}
+  .sources p{margin:0 0 12px;color:var(--muted);font-size:14px}
+  .sources ul{margin:0;padding-left:20px;font-size:14px}
+  footer{padding:30px 24px;background:var(--bg);color:#cbd5e1;font-size:13px}
+  @media(max-width:820px){.concept-grid,.phase-grid{grid-template-columns:1fr}.research-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){header.hero{padding:40px 18px 30px}main{padding-left:12px;padding-right:12px}.research-head{padding:16px}.research-box,.problem-frame,.concept-panel,.validation{padding:17px}.toolbar-inner{justify-content:stretch}.toolbar a,.print-btn{flex:1;text-align:center}}
+  @media print{nav.toolbar,.section-nav{display:none}.research-box,.concept-panel,.problem-frame,.validation{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Hackathon JOINTS • Research-to-Prototype</span>
+    <h1>KelasRelay: Sistem Kelas yang Tidak Ikut Hilang Saat Guru Berganti</h1>
+    <p class="lead">Ide aplikasi untuk Isu 1: Guru Honorer Gonta-Ganti, Kualitas Timpang Desa-Kota. Kebaruan utamanya bukan mencari guru pengganti lebih cepat, tetapi menjaga memori belajar, serah-terima, dan jaringan pendukung kelas.</p>
+    <div class="meta"><span>1 masalah prioritas</span><span>1 konsep inti</span><span>4 mekanisme lintas disiplin</span><span>Offline-first + MVP</span></div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m1">Kembali ke Isu 1</a>
+    <a class="secondary" href="#concept">Konsep inti</a>
+    <a class="secondary" href="#approach1">4 mekanisme riset</a>
+    <a class="secondary" href="#sources">Rujukan</a>
+    <button class="print-btn" onclick="window.print()">Cetak / PDF</button>
+  </div>
+</nav>
+
+<main>
+  <div class="summary">
+    <div class="metric"><strong>KelasRelay</strong><small>Nama konsep aplikasi</small></div>
+    <div class="metric"><strong>4</strong><small>Modul riset yang digabung</small></div>
+    <div class="metric"><strong>Offline</strong><small>Dirancang untuk konektivitas terbatas</small></div>
+    <div class="metric"><strong>MVP</strong><small>Dapat diuji pada satu sekolah</small></div>
+  </div>
+
+  <div class="notice"><b>Catatan kebaruan:</b> masing-masing mekanisme memiliki literatur tersendiri. Kandidat novelty berada pada kombinasinya untuk menjaga kesinambungan kelas di sekolah dengan turnover guru tinggi. Klaim belum pernah ada perlu diuji lagi melalui <i>scoping review</i> khusus Indonesia.</div>
+
+  <section class="problem-frame">
+    <h2>Masalah yang Diserang</h2>
+    <p>Guru honorer berpindah karena honor rendah, beban kerja, dan ketimpangan kondisi desa-kota. Saat guru pergi, sekolah bukan hanya kehilangan tenaga mengajar, tetapi juga kehilangan <strong>riwayat penguasaan murid, rutinitas kelas, pengetahuan lokal, dan hubungan dengan orang tua</strong>. Guru baru lalu mengulang diagnosis dari awal.</p>
+  </section>
+
+  <section id="concept" class="concept-panel">
+    <div class="label">Konsep inti</div>
+    <h2>Learning Continuity Insurance untuk Kelas</h2>
+    <p>KelasRelay membuat keadaan kelas tetap tersimpan dan dapat diteruskan dari satu guru ke guru berikutnya. Sekolah biasanya merasa membutuhkan guru pengganti, tetapi kebutuhan tersembunyinya adalah sistem yang mencegah kelas kembali ke titik nol.</p>
+    <div class="concept-grid">
+      <div class="concept-box"><h3>Yang disimpan</h3><p>Kompetensi yang sudah dan belum dikuasai, bukti asesmen, rutinitas kelas, konteks bahasa, dan tindakan berikutnya.</p></div>
+      <div class="concept-box"><h3>Yang diaktifkan</h3><p>Serah-terima terstruktur, jaringan guru cadangan, mentor bidang studi, dan pencocokan penugasan yang realistis.</p></div>
+      <div class="concept-box"><h3>Yang bukan tujuan</h3><p>Bukan sistem ranking guru, bukan pengganti guru dengan AI, dan bukan tambahan administrasi panjang.</p></div>
+    </div>
+  </section>
+
+  <div class="section-nav">
+    <a href="#approach1">1. Class State Graph<small>Memori kondisi belajar kelas</small></a>
+    <a href="#approach2">2. I-PASS Classroom<small>Serah-terima tanpa informasi hilang</small></a>
+    <a href="#approach3">3. Teacher Knowledge Network<small>Jaringan cadangan pengetahuan</small></a>
+    <a href="#approach4">4. Continuity Matching<small>Penempatan yang lebih mungkin bertahan</small></a>
+  </div>
+
+  <section class="research-section" id="approach1">
+    <div class="research-head teal">
+      <span class="research-number">1</span>
+      <div><h2>Class State Graph</h2><p>Peta kondisi belajar yang tetap ada meskipun guru berganti</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi menjadi "memori kelas". Guru baru dapat melihat materi yang sudah dipahami, kesenjangan utama, dan langkah pembelajaran berikutnya tanpa menebak dari awal.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Bayesian Knowledge Tracing</i> memperkirakan tingkat penguasaan kompetensi dari jawaban, kesalahan, dan latihan. Metode ini digunakan dalam <i>intelligent tutoring system</i>. <i>Deep Knowledge Tracing</i> dapat menjadi opsi lanjutan jika data sudah cukup.</p><p class="source">Rujukan: <a href="https://doi.org/10.1007/BF01099821" target="_blank" rel="noopener">Corbett &amp; Anderson, 1995</a> dan <a href="https://papers.nips.cc/paper_files/paper/2015/hash/bac9162b47c56fc8a4d2a519803d51b3-Abstract.html" target="_blank" rel="noopener">Piech et al., 2015</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Knowledge tracing biasanya mempersonalisasi latihan untuk individu. KelasRelay menggunakannya sebagai <b>class state</b>: status belajar kelas menjadi aset institusi yang tidak ikut hilang ketika guru pindah.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Graf kompetensi dengan prasyarat dan tingkat keyakinan data.</li><li>Asesmen singkat offline, foto lembar kerja, atau nilai formatif.</li><li>Ringkasan "sudah tahu, belum tahu, dan lakukan berikutnya" untuk guru baru.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>Bayesian Knowledge Tracing</code><code>student modeling for learning continuity</code><code>learning progression graph</code><code>pemodelan penguasaan kompetensi</code><code>asesmen diagnostik adaptif</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach2">
+    <div class="research-head blue">
+      <span class="research-number">2</span>
+      <div><h2>I-PASS Classroom Handoff</h2><p>Serah-terima kelas dengan disiplin keselamatan sistem kritis</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Guru yang akan pergi tidak hanya menyerahkan jadwal. Ia menyerahkan kondisi belajar, tiga tindakan terdekat, risiko yang perlu diantisipasi, lalu guru baru mengulang kembali apa yang dipahaminya.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>I-PASS Handoff Bundle</i> dalam layanan kesehatan menstrukturkan ringkasan kondisi, daftar tindakan, situasi risiko, dan konfirmasi penerima. Studi multisitus di sembilan rumah sakit mengaitkannya dengan penurunan kesalahan medis dan kejadian yang dapat dicegah.</p><p class="source">Rujukan: <a href="https://doi.org/10.1056/NEJMsa1405556" target="_blank" rel="noopener">Starmer et al., 2014, NEJM</a> dan <a href="https://doi.org/10.1136/bmjqs-2024-018385" target="_blank" rel="noopener">McCarthy et al., 2025</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Pergantian guru biasanya berlangsung melalui percakapan informal atau pesan singkat. Prinsip <i>shared mental model</i> dari keselamatan pasien dipindahkan ke kesinambungan pembelajaran, bukan sekadar administrasi kepegawaian.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li><b>Class Condition:</b> kondisi dan risiko kelas.</li><li><b>Learning Summary:</b> kompetensi dan miskonsepsi.</li><li><b>Action List:</b> tiga prioritas pembelajaran.</li><li><b>Situation Awareness:</b> bahasa, kehadiran, dan konteks komunitas.</li><li><b>Receiver Synthesis:</b> konfirmasi guru penerima.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>I-PASS handoff education</code><code>shared mental models in teaching</code><code>structured classroom handoff</code><code>teacher transition protocol</code><code>serah-terima guru terstruktur</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach3">
+    <div class="research-head green">
+      <span class="research-number">3</span>
+      <div><h2>Teacher Knowledge Network</h2><p>Jaringan cadangan agar pengetahuan sekolah tidak bergantung pada satu orang</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi memetakan siapa yang menguasai matematika, bahasa lokal, kelas multi-level, atau hubungan dengan orang tua. Jika orang utama pergi, sistem sudah mengetahui siapa yang dapat menjadi cadangan.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Social Network Analysis</i>, <i>teacher social capital</i>, dan <i>collective efficacy</i> mempelajari bagaimana hubungan antar-guru membantu pertukaran pengetahuan dan kapasitas bersama. Riset Moolenaar dan kolega menghubungkan jaringan kolaborasi dengan collective efficacy serta capaian siswa.</p><p class="source">Rujukan: <a href="https://doi.org/10.1016/j.tate.2011.10.001" target="_blank" rel="noopener">Moolenaar, Sleegers &amp; Daly, 2012</a> dan <a href="https://doi.org/10.1086/667715" target="_blank" rel="noopener">Moolenaar, 2012</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Platform pendidikan biasanya menilai guru sebagai individu. KelasRelay mengukur <b>ketahanan jaringan pengetahuan</b>: apa yang hilang jika satu guru menjadi tidak tersedia?</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Graf kompetensi dan relasi bantuan yang bersifat sukarela.</li><li>Deteksi kompetensi yang hanya dimiliki satu orang.</li><li>Simulasi keluarnya satu guru dari jaringan.</li><li>Pembentukan <i>Teacher Pod</i>: guru lokal, mentor bidang studi, dan guru cadangan.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>teacher social network analysis</code><code>collective efficacy student achievement</code><code>knowledge brokerage in schools</code><code>organizational network resilience</code><code>analisis jaringan sosial guru</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach4">
+    <div class="research-head purple">
+      <span class="research-number">4</span>
+      <div><h2>Continuity-Aware Matching</h2><p>Penempatan guru berdasarkan kecocokan dan peluang bertahan</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi bukan papan lowongan biasa. Sistem mempertimbangkan jarak, bahasa, pengalaman, beban kerja, preferensi guru, dan keberadaan guru cadangan agar penempatan tidak hanya cepat, tetapi lebih mungkin bertahan.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Deferred Acceptance</i>, <i>stable matching</i>, dan <i>constrained matching</i> digunakan untuk mencocokkan preferensi dua pihak. Literatur penempatan guru juga menunjukkan bahwa kedekatan geografis dan desain mekanisme dapat memengaruhi kualitas kecocokan serta retensi.</p><p class="source">Rujukan: <a href="https://doi.org/10.2307/2312726" target="_blank" rel="noopener">Gale &amp; Shapley, 1962</a>, <a href="https://doi.org/10.1093/restud/rdac002" target="_blank" rel="noopener">Combe, Tercieux &amp; Terrier, 2022</a>, dan <a href="https://doi.org/10.1002/pam.20072" target="_blank" rel="noopener">Boyd et al., 2005</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Rekrutmen biasanya hanya mengoptimalkan posisi agar terisi. KelasRelay mengoptimalkan <b>kesinambungan kelas</b>, kecocokan lokal, beban kerja, dan peluang guru bertahan di sekolah.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li><b>Local Anchor Teacher:</b> guru lokal yang menjaga konteks kelas.</li><li><b>Subject Coach:</b> pendamping bidang studi.</li><li><b>Continuity Backup:</b> guru cadangan ketika terjadi gangguan.</li><li>Algoritma mempertimbangkan lokasi, bahasa, kompetensi, preferensi, dan durasi komitmen.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>teacher assignment mechanism</code><code>deferred acceptance teacher matching</code><code>teacher retention geographic proximity</code><code>dynamic two-sided matching</code><code>matching guru berbasis lokasi</code></div>
+    </div>
+  </section>
+
+  <section class="validation">
+    <h2>Rancangan MVP dan Validasi</h2>
+    <p>Uji awal tidak perlu membangun platform besar. Mulai dari satu sekolah dengan dua atau tiga kelas yang berisiko mengalami pergantian guru.</p>
+    <div class="phase-grid">
+      <div class="phase"><strong>FASE 1 - TANGKAP</strong><h3>Class State</h3><p>Asesmen singkat, peta kompetensi, konteks kelas, dan tindakan pembelajaran berikutnya.</p></div>
+      <div class="phase"><strong>FASE 2 - SAMBUNG</strong><h3>Handoff + Pod</h3><p>Serah-terima terstruktur dan pembentukan guru lokal, mentor, serta cadangan.</p></div>
+      <div class="phase"><strong>FASE 3 - UKUR</strong><h3>Recovery</h3><p>Ukur waktu kelas kembali stabil, perubahan penguasaan, kelengkapan handoff, dan cakupan backup.</p></div>
+    </div>
+    <ul><li>Jangan gunakan data untuk menghukum atau memberi ranking guru.</li><li>Gunakan persetujuan, pembatasan akses, dan data minimum yang diperlukan.</li><li>Indikator utama adalah keberlanjutan belajar kelas, bukan jumlah pengguna aplikasi.</li></ul>
+  </section>
+
+  <section class="sources" id="sources">
+    <h2>Rujukan Awal</h2>
+    <p>Rujukan berikut menjadi titik awal penelusuran, bukan pengganti validasi literatur sistematis.</p>
+    <ul>
+      <li><a href="https://doi.org/10.1007/BF01099821" target="_blank" rel="noopener">Corbett &amp; Anderson - Knowledge Tracing</a></li>
+      <li><a href="https://doi.org/10.1056/NEJMsa1405556" target="_blank" rel="noopener">Starmer et al. - I-PASS Handoff Bundle</a></li>
+      <li><a href="https://doi.org/10.1016/j.tate.2011.10.001" target="_blank" rel="noopener">Moolenaar, Sleegers &amp; Daly - Teacher Collaboration Networks</a></li>
+      <li><a href="https://doi.org/10.1093/restud/rdac002" target="_blank" rel="noopener">Combe, Tercieux &amp; Terrier - Teacher Assignment</a></li>
+      <li><a href="https://doi.org/10.1002/pam.20072" target="_blank" rel="noopener">Boyd et al. - Teacher Geographic Preferences</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>KelasRelay</b> - Ide riset dan sistem inovasi untuk Isu 1. Halaman ini merupakan konsep awal untuk validasi lapangan dan pengembangan prototype.</div>
+</footer>
+</body>
+</html>

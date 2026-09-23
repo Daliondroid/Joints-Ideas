@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlurNalar: Curriculum Continuity Compiler | Hackathon JOINTS</title>
+<style>
+  :root{
+    --bg:#0f172a; --ink:#0f172a; --muted:#64748b; --card:#fff;
+    --soft:#f8fafc; --line:#e2e8f0; --purple:#7c3aed; --purple-dark:#5b21b6;
+    --teal:#0d9488; --blue:#2563eb; --green:#15803d; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--soft);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.65}
+  a{color:var(--purple-dark)}
+  .wrap{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+  header.hero{position:relative;overflow:hidden;color:#fff;padding:56px 24px 44px;background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 38%,#0d9488 70%,#7c3aed 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 84% 14%,rgba(255,255,255,.28),transparent 34%)}
+  .eyebrow{display:inline-block;padding:6px 13px;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.16);border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.3px}
+  h1{max-width:930px;margin:16px 0 10px;font-size:clamp(28px,5vw,50px);line-height:1.12}
+  .lead{max-width:920px;margin:0;font-size:clamp(14px,2vw,18px);opacity:.96}
+  .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .meta span{padding:6px 11px;border-radius:999px;background:rgba(0,0,0,.28);font-size:13px}
+  nav.toolbar{position:sticky;top:0;z-index:20;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .toolbar-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .toolbar a,.print-btn{display:inline-block;text-decoration:none;border:0;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:800;cursor:pointer}
+  .toolbar a{background:var(--ink);color:#fff}
+  .toolbar a.secondary{background:#ede9fe;color:var(--purple-dark)}
+  .print-btn{background:#e0f2fe;color:#075985}
+  main{max-width:1160px;margin:0 auto;padding:28px 16px 64px}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:25px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .metric strong{display:block;color:var(--purple);font-size:25px;line-height:1.1}
+  .metric small{color:var(--muted)}
+  .notice{padding:15px 17px;margin-bottom:26px;border:1px solid #c4b5fd;border-radius:14px;background:#f5f3ff;color:#312e81;font-size:14px}
+  .problem-frame,.concept-panel,.validation{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:28px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .problem-frame{border-left:6px solid var(--amber)}
+  .problem-frame h2,.concept-panel h2,.validation h2{margin:0 0 8px;font-size:24px}
+  .problem-frame p,.concept-panel p,.validation p{margin:0;font-size:14.5px}
+  .problem-frame strong{color:#92400e}
+  .section-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-bottom:32px}
+  .section-nav a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink);font-weight:800}
+  .section-nav a:hover{border-color:var(--purple);color:var(--purple-dark)}
+  .section-nav small{display:block;color:var(--muted);font-weight:400}
+  .concept-panel{background:linear-gradient(135deg,#fff 0%,#eff6ff 100%);border-color:#bfdbfe}
+  .concept-panel .label{color:#1d4ed8;font-size:12px;font-weight:900;letter-spacing:.6px;text-transform:uppercase}
+  .concept-panel h2{font-size:clamp(25px,4vw,36px);color:#1e3a8a}
+  .concept-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+  .concept-box{padding:15px;border:1px solid #bfdbfe;border-radius:13px;background:rgba(255,255,255,.78)}
+  .concept-box h3{margin:0 0 5px;font-size:14px;color:#1e3a8a}
+  .concept-box p{font-size:13.5px}
+  .research-section{scroll-margin-top:78px;margin-top:38px}
+  .research-head{display:flex;gap:13px;align-items:flex-start;padding:20px;border-radius:16px;margin-bottom:16px;color:#fff}
+  .research-head.teal{background:linear-gradient(120deg,#115e59,#0d9488)}
+  .research-head.blue{background:linear-gradient(120deg,#1e3a8a,#2563eb)}
+  .research-head.green{background:linear-gradient(120deg,#14532d,#15803d)}
+  .research-head.purple{background:linear-gradient(120deg,#4c1d95,#7c3aed)}
+  .research-number{display:inline-grid;place-items:center;min-width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.2);font-size:22px;font-weight:900}
+  .research-head h2{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.2}
+  .research-head p{margin:5px 0 0;opacity:.92;font-size:14px}
+  .breakdown{padding:16px 18px;margin-bottom:14px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a}
+  .breakdown h3{margin:0 0 5px;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+  .breakdown p{margin:0;font-size:14.5px}
+  .research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .research-box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .research-box h3{margin:0 0 7px;color:var(--purple-dark);font-size:13px;text-transform:uppercase;letter-spacing:.45px}
+  .research-box p{margin:0;font-size:14px}
+  .research-box ul{margin:5px 0 0;padding-left:19px;font-size:14px}
+  .research-box li{margin-bottom:5px}
+  .source{margin-top:11px!important;color:var(--muted);font-size:12.5px!important}
+  .source a{font-weight:700}
+  .keywords{background:#f8fafc}
+  .keywords code{display:inline-block;margin:4px 4px 0 0;padding:4px 8px;border-radius:999px;background:#0f172a;color:#fff;font-size:12px}
+  .phase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+  .phase{padding:15px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}
+  .phase strong{display:block;color:var(--teal);font-size:13px;letter-spacing:.4px}
+  .phase h3{margin:5px 0;font-size:17px}
+  .phase p{font-size:13.5px}
+  .validation{margin-top:38px;border-left:6px solid var(--green)}
+  .validation ul{margin:8px 0 0;padding-left:20px;font-size:14px}
+  .ai-section{scroll-margin-top:78px;margin-top:38px;padding:24px;border:1px solid #a5b4fc;border-radius:18px;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 52%,#ecfeff 100%);box-shadow:0 8px 24px rgba(79,70,229,.1)}
+  .ai-kicker{display:inline-block;padding:5px 10px;border-radius:999px;background:#312e81;color:#fff;font-size:11px;font-weight:900;letter-spacing:.5px}
+  .ai-section h2{margin:10px 0 7px;color:#312e81;font-size:clamp(25px,4vw,36px);line-height:1.2}
+  .ai-intro{max-width:900px;margin:0;font-size:14.5px}
+  .ai-flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:20px 0}
+  .ai-step{position:relative;min-height:130px;padding:12px;border:1px solid #c7d2fe;border-radius:12px;background:rgba(255,255,255,.82)}
+  .ai-step-number{display:grid;place-items:center;width:27px;height:27px;margin-bottom:8px;border-radius:8px;background:#4f46e5;color:#fff;font-weight:900;font-size:12px}
+  .ai-step strong{display:block;font-size:13px;color:#312e81}
+  .ai-step p{margin:4px 0 0;font-size:12.5px;color:#475569}
+  .ai-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+  .ai-card{padding:18px;border:1px solid #c7d2fe;border-radius:15px;background:#fff;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .ai-card h3{margin:0 0 7px;color:#3730a3;font-size:15px}
+  .ai-card p{margin:0;font-size:14px}
+  .ai-card ul{margin:6px 0 0;padding-left:19px;font-size:14px}
+  .ai-card li{margin-bottom:5px}
+  .ai-role{display:inline-block;margin-bottom:8px;padding:4px 8px;border-radius:999px;background:#e0e7ff;color:#3730a3;font-size:11px;font-weight:900}
+  .ai-guardrails{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+  .ai-guardrail{padding:13px;border-radius:12px;background:#fff;border:1px solid #c7d2fe}
+  .ai-guardrail strong{display:block;color:#0f766e;font-size:13px}
+  .ai-guardrail p{margin:4px 0 0;font-size:12.5px;color:#475569}
+  .ai-mvp{margin-top:16px;padding:16px;border-radius:14px;background:#0f172a;color:#e2e8f0}
+  .ai-mvp h3{margin:0 0 6px;color:#a5b4fc;font-size:16px}
+  .ai-mvp p{margin:0;font-size:14px}
+  .ai-mvp code{display:inline-block;margin:7px 5px 0 0;padding:4px 8px;border-radius:999px;background:#312e81;color:#e0e7ff;font-size:12px}
+  .sources{margin-top:28px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+  .sources h2{margin:0 0 6px;font-size:21px}
+  .sources p{margin:0 0 12px;color:var(--muted);font-size:14px}
+  .sources ul{margin:0;padding-left:20px;font-size:14px}
+  footer{padding:30px 24px;background:var(--bg);color:#cbd5e1;font-size:13px}
+  @media(max-width:1000px){.ai-flow{grid-template-columns:repeat(3,minmax(0,1fr))}.ai-guardrails{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:820px){.concept-grid,.phase-grid{grid-template-columns:1fr}.research-grid,.ai-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){header.hero{padding:40px 18px 30px}main{padding-left:12px;padding-right:12px}.research-head{padding:16px}.research-box,.problem-frame,.concept-panel,.validation{padding:17px}.toolbar-inner{justify-content:stretch}.toolbar a,.print-btn{flex:1;text-align:center}}
+  @media print{nav.toolbar,.section-nav{display:none}.research-box,.concept-panel,.problem-frame,.validation,.ai-section{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Hackathon JOINTS • Research-to-Prototype</span>
+    <h1>AlurNalar: Curriculum Continuity Compiler</h1>
+    <p class="lead">Ide sistem untuk Isu 13: Kurikulum Berganti, Alur Belajar Terputus. AlurNalar menerjemahkan perubahan dokumen kurikulum menjadi peta kompetensi, diagnosis kesenjangan, dan urutan pembelajaran yang dapat dijalankan guru.</p>
+    <div class="meta"><span>1 masalah prioritas</span><span>1 konsep inti</span><span>4 mekanisme lintas disiplin</span><span>Graph + AI + Human-in-the-loop</span></div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m13">Kembali ke Isu 13</a>
+    <a class="secondary" href="#concept">Konsep inti</a>
+    <a class="secondary" href="#approach1">4 mekanisme riset</a>
+    <a class="secondary" href="#ai-system">AlurNalar AI</a>
+    <a class="secondary" href="#sources">Rujukan</a>
+    <button class="print-btn" onclick="window.print()">Cetak / PDF</button>
+  </div>
+</nav>
+
+<main>
+  <div class="summary">
+    <div class="metric"><strong>AlurNalar</strong><small>Nama konsep aplikasi</small></div>
+    <div class="metric"><strong>4</strong><small>Modul riset yang digabung</small></div>
+    <div class="metric"><strong>Graph</strong><small>Kompetensi dan prasyarat terhubung</small></div>
+    <div class="metric"><strong>MVP</strong><small>Dapat diuji pada satu mata pelajaran</small></div>
+  </div>
+
+  <div class="notice"><b>Catatan kebaruan:</b> masing-masing mekanisme memiliki literatur tersendiri. Kandidat novelty berada pada kombinasinya sebagai sistem migrasi kurikulum untuk sekolah, bukan sekadar generator RPP atau chatbot pembuat materi.</div>
+
+  <section class="problem-frame">
+    <h2>Masalah yang Diserang</h2>
+    <p>Ketika kurikulum berganti, guru harus memetakan ulang urutan materi, prasyarat kompetensi, asesmen, dan tempo satu semester. Jika hubungan tersebut tidak terlihat, materi dapat berulang, terlewat, atau muncul sebelum murid siap. Dampak tersembunyinya adalah <strong>curriculum debt</strong>: kesenjangan yang baru terlihat ketika murid gagal memahami konsep lanjutan.</p>
+  </section>
+
+  <section id="concept" class="concept-panel">
+    <div class="label">Konsep inti</div>
+    <h2>Curriculum Continuity Compiler</h2>
+    <p>AlurNalar memperlakukan kurikulum bukan sebagai kumpulan PDF, tetapi sebagai sistem dependensi yang dapat dipetakan, dibandingkan, diuji, dan dikompilasi menjadi rencana pembelajaran.</p>
+    <div class="concept-grid">
+      <div class="concept-box"><h3>Input</h3><p>CP, TP, ATP, silabus lama dan baru, asesmen, materi ajar, kalender sekolah, serta data kesiapan murid.</p></div>
+      <div class="concept-box"><h3>Process</h3><p>Ekstraksi konsep, peta prasyarat, semantic diff, diagnosis kognitif, dan optimasi urutan belajar.</p></div>
+      <div class="concept-box"><h3>Output</h3><p>Learning progression, daftar curriculum debt, bridge lesson, dan beberapa rencana belajar yang dapat dijelaskan.</p></div>
+    </div>
+  </section>
+
+  <div class="section-nav">
+    <a href="#approach1">1. Curriculum Knowledge Graph<small>Memetakan struktur kompetensi</small></a>
+    <a href="#approach2">2. Curriculum Git<small>Mendeteksi perubahan dan curriculum debt</small></a>
+    <a href="#approach3">3. Diagnostic Validator<small>Menguji alur dengan data murid</small></a>
+    <a href="#approach4">4. Curriculum Compiler<small>Menghasilkan rencana yang feasible</small></a>
+  </div>
+
+  <section class="research-section" id="approach1">
+    <div class="research-head teal">
+      <span class="research-number">1</span>
+      <div><h2>Curriculum Knowledge Graph dan Learning Progression</h2><p>Peta hubungan kompetensi agar guru melihat alur, bukan hanya daftar materi</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Dokumen kurikulum diubah menjadi peta. Setiap kompetensi menjadi titik, sedangkan hubungan seperti "harus dipahami sebelum" menjadi garis. Guru dapat melihat apa yang hilang, berulang, atau muncul terlalu cepat.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Learning progression</i> memodelkan perkembangan pemahaman murid dari konsep awal menuju pemahaman yang lebih kompleks. <i>Curriculum ontology</i>, <i>knowledge graph</i>, dan <i>curriculum mapping</i> digunakan untuk merepresentasikan kompetensi, asesmen, materi, dan prasyarat secara terstruktur.</p><p class="source">Rujukan: <a href="https://doi.org/10.1080/03057267.2011.604476" target="_blank" rel="noopener">Duschl, Maeng &amp; Sezen, 2011</a>, <a href="https://doi.org/10.1371/journal.pone.0143748" target="_blank" rel="noopener">Komenda et al., 2015</a>, dan <a href="https://doi.org/10.1186/s40561-024-00307-8" target="_blank" rel="noopener">Piriyapongpipat et al., 2024</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Sistem kurikulum sering berhenti pada daftar dokumen. AlurNalar menggabungkan versi kurikulum, prasyarat, asesmen, dan bukti belajar murid menjadi satu graf yang dapat ditelusuri. Pertanyaan baru yang dijawab adalah: <b>jika satu kompetensi dipindahkan, bagian mana di kelas berikutnya yang ikut terdampak?</b></p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Upload CP, TP, ATP, silabus, dan asesmen.</li><li>Ekstraksi konsep serta hubungan prasyarat dengan sumber kutipan.</li><li>Deteksi kompetensi tanpa prasyarat, tujuan tanpa asesmen, dan materi berulang.</li><li>Human-in-the-loop untuk menyetujui atau menolak relasi yang disarankan AI.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>learning progression validation</code><code>curriculum ontology knowledge graph</code><code>prerequisite knowledge graph education</code><code>pemetaan koherensi kurikulum</code><code>alur belajar berbasis kompetensi</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach2">
+    <div class="research-head blue">
+      <span class="research-number">2</span>
+      <div><h2>Curriculum Git dan Curriculum Debt Detector</h2><p>Version control dan process mining untuk melihat dampak perubahan kurikulum</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Setiap versi kurikulum memiliki riwayat perubahan. Aplikasi menunjukkan apa yang ditambah, dihapus, atau dipindahkan, lalu menghitung bagian lain yang mungkin rusak akibat perubahan tersebut.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Process mining</i> menggunakan event log untuk membandingkan proses yang dirancang dengan proses yang benar-benar terjadi. Teknik seperti <i>process discovery</i>, <i>conformance checking</i>, dan <i>trace alignment</i> telah digunakan untuk menganalisis jalur studi, aktivitas LMS, serta penyimpangan dari rencana kurikulum.</p><p class="source">Rujukan: <a href="https://doi.org/10.1007/978-3-662-49851-4" target="_blank" rel="noopener">van der Aalst, 2016</a>, <a href="https://vdaalst.com/publications/p1344.pdf" target="_blank" rel="noopener">Wagner et al., 2022</a>, dan <a href="https://doi.org/10.1109/FIE44824.2020.9274125" target="_blank" rel="noopener">Real et al., 2020</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Perubahan kurikulum biasanya hanya dibandingkan sebagai perubahan teks. AlurNalar menggabungkan <b>semantic diff</b>, dependency cascade, dan jalur pembelajaran aktual untuk menemukan curriculum debt sebelum masalahnya muncul pada konsep lanjutan.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Penyimpanan versi kurikulum seperti v1, v2, dan v3.</li><li>Semantic diff untuk konsep, kompetensi, asesmen, dan materi.</li><li>Impact cascade ketika satu kompetensi berubah.</li><li>Dashboard materi berulang, dilewati, out-of-order, dan asesmen tidak selaras.</li><li>Migration checklist untuk guru setelah kurikulum berubah.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>educational process mining</code><code>curriculum conformance checking</code><code>curriculum version control</code><code>learning path deviation mining</code><code>utang kurikulum</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach3">
+    <div class="research-head green">
+      <span class="research-number">3</span>
+      <div><h2>Cognitive Diagnostic Learning Progression Validator</h2><p>Menguji apakah alur yang dirancang benar-benar sesuai dengan kesiapan murid</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi tidak menganggap urutan kurikulum selalu benar. Murid mengerjakan asesmen mikro, lalu sistem memeriksa konsep mana yang sudah dikuasai dan apakah prasyarat yang diasumsikan memang benar-benar dibutuhkan.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Cognitive Diagnostic Models</i> seperti DINA dan G-DINA menggunakan Q-matrix untuk memetakan soal terhadap keterampilan. <i>Attribute Hierarchy Model</i> menambahkan hubungan bahwa penguasaan atribut tertentu dapat menjadi prasyarat atribut lain. Model longitudinal dapat melacak perubahan mastery dari waktu ke waktu.</p><p class="source">Rujukan: <a href="https://doi.org/10.1146/annurev-statistics-033021-111803" target="_blank" rel="noopener">Zhang, Liu &amp; Ying, 2023</a>, <a href="https://doi.org/10.1177/0146621618765721" target="_blank" rel="noopener">Tu et al., 2019</a>, dan <a href="https://doi.org/10.3389/fpsyg.2020.569852" target="_blank" rel="noopener">Wang et al., 2020</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Learning progression biasanya dianggap sebagai urutan ideal yang dibuat oleh ahli. AlurNalar menjadikannya <b>hipotesis yang harus diuji</b> dengan data penguasaan murid, sehingga sistem dapat menemukan prasyarat yang salah, jalur alternatif, dan bridge lesson yang diperlukan.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Setiap kompetensi menjadi cognitive attribute.</li><li>Asesmen mikro 3-8 butir dipetakan ke Q-matrix.</li><li>Dashboard mastery profile untuk murid dan kelas.</li><li>Deteksi prasyarat yang belum dikuasai dan miskonsepsi dominan.</li><li>Rekomendasi jalur standar, remedial, pengayaan, atau alternatif.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>cognitive diagnostic assessment</code><code>DINA G-DINA Q-matrix</code><code>attribute hierarchy model learning progression</code><code>longitudinal learning diagnosis</code><code>diagnosis kognitif longitudinal</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach4">
+    <div class="research-head purple">
+      <span class="research-number">4</span>
+      <div><h2>Constraint-Based Curriculum Compiler</h2><p>Mengubah progression ideal menjadi rencana yang benar-benar dapat dijalankan</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Guru memasukkan waktu efektif, kalender sekolah, kesiapan murid, asesmen, dan sumber daya. Sistem kemudian menyusun beberapa rencana alur belajar yang tetap menghormati prasyarat dan keterbatasan nyata.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p><i>Constraint Satisfaction Problem</i>, AI planning, PDDL, dynamic programming, dan multi-objective optimization digunakan untuk merencanakan rute belajar dengan prasyarat, durasi, sumber daya, sinkronisasi, dan tujuan yang beragam.</p><p class="source">Rujukan: <a href="https://www.sciencedirect.com/science/article/abs/pii/S0952197608000353" target="_blank" rel="noopener">Garrido et al. - Planning and Scheduling in E-learning</a>, <a href="https://doi.org/10.1109/TSP.2016.2595495" target="_blank" rel="noopener">Xu, Xing &amp; van der Schaar, 2016</a>, dan <a href="https://doi.org/10.1023/A:1006576209967" target="_blank" rel="noopener">Schaerf, 1999</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Guru sering memahami tujuan kurikulum, tetapi kesulitan mengompilasinya menjadi 36 minggu efektif dengan hari libur, asesmen, kegiatan sekolah, dan kelas heterogen. Sistem ini menawarkan <b>progression compiler</b>, bukan sekadar rekomendasi materi.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li><b>Hard constraints:</b> prasyarat, asesmen, waktu, dan kompetensi wajib.</li><li><b>Soft constraints:</b> beban guru, remedial, konteks lokal, dan keseimbangan antar-mata pelajaran.</li><li>Mode Normal, Recovery, Mixed-Readiness, dan Minimum Viable Progression.</li><li>Simulasi: apa yang terjadi jika tiga minggu pembelajaran hilang?</li><li>Output menyertakan alasan di balik setiap urutan.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>constraint-based learning path planning</code><code>PDDL e-learning planning</code><code>multi-objective curriculum sequencing</code><code>curriculum scheduling optimization</code><code>perencanaan alur belajar berbasis kendala</code></div>
+    </div>
+  </section>
+
+  <section class="validation">
+    <h2>Rancangan MVP dan Validasi</h2>
+    <p>Mulai dari satu mata pelajaran dan satu jenjang. Jangan langsung membangun platform kurikulum nasional.</p>
+    <div class="phase-grid">
+      <div class="phase"><strong>FASE 1 - PETAKAN</strong><h3>Graph + Semantic Diff</h3><p>Unggah kurikulum lama dan baru, lalu validasi konsep, prasyarat, serta dampak perubahan bersama guru.</p></div>
+      <div class="phase"><strong>FASE 2 - DIAGNOSIS</strong><h3>Mastery Profile</h3><p>Gunakan asesmen mikro untuk memeriksa kesenjangan aktual dan menentukan bridge lesson.</p></div>
+      <div class="phase"><strong>FASE 3 - KOMPILASI</strong><h3>Bridge Plan</h3><p>Hasilkan rencana 8-12 minggu yang memenuhi prasyarat, kalender, waktu, dan kesiapan kelas.</p></div>
+    </div>
+    <ul><li>Ukur waktu penyusunan progression dibandingkan metode manual.</li><li>Bandingkan pemetaan sistem dengan penilaian pakar.</li><li>Ukur jumlah prasyarat rusak dan tujuan tanpa asesmen yang terdeteksi.</li><li>Jadikan AI sebagai pemberi kandidat, bukan pengambil keputusan kurikulum.</li></ul>
+  </section>
+
+  <section class="ai-section" id="ai-system">
+    <span class="ai-kicker">MODE 2 - SISTEM AI TERINTEGRASI</span>
+    <h2>AlurNalar AI: dari Dokumen ke Keputusan yang Dapat Diaudit</h2>
+    <p class="ai-intro">Bagian ini menambahkan otomatisasi AI di atas sistem AlurNalar non-AI. AI membantu membaca dokumen, mengusulkan pemetaan, mendiagnosis pola, dan menyusun alternatif rencana. Knowledge graph, aturan, dan persetujuan manusia tetap menjadi pengaman keputusan.</p>
+
+    <div class="ai-flow" aria-label="Alur kerja AlurNalar AI">
+      <div class="ai-step"><span class="ai-step-number">1</span><strong>Parse</strong><p>OCR dan LLM mengubah PDF menjadi struktur kompetensi.</p></div>
+      <div class="ai-step"><span class="ai-step-number">2</span><strong>Align</strong><p>Embedding dan cross-encoder mencocokkan versi lama dan baru.</p></div>
+      <div class="ai-step"><span class="ai-step-number">3</span><strong>Reason</strong><p>Graph engine memeriksa prasyarat, siklus, dan dampak perubahan.</p></div>
+      <div class="ai-step"><span class="ai-step-number">4</span><strong>Diagnose</strong><p>DINA, G-DINA, atau BKT membaca kesiapan murid.</p></div>
+      <div class="ai-step"><span class="ai-step-number">5</span><strong>Plan</strong><p>CP-SAT, PDDL, atau optimizer menyusun rencana feasible.</p></div>
+      <div class="ai-step"><span class="ai-step-number">6</span><strong>Explain</strong><p>RAG menjelaskan keputusan dengan sumber dokumen.</p></div>
+    </div>
+
+    <div class="ai-grid">
+      <div class="ai-card">
+        <span class="ai-role">AI DOCUMENT INTELLIGENCE</span>
+        <h3>1. Membaca dan Menstrukturkan Kurikulum</h3>
+        <p>Model AI mengekstrak kompetensi, kata kerja, konsep, asesmen, tingkat kognitif, dan kandidat prasyarat dari CP, TP, ATP, silabus, serta dokumen lama.</p>
+        <ul><li>Setiap hasil menyimpan kutipan sumber dan tingkat keyakinan.</li><li>Guru dapat memperbaiki ekstraksi tanpa mengedit basis data secara langsung.</li></ul>
+      </div>
+      <div class="ai-card">
+        <span class="ai-role">SEMANTIC ALIGNMENT + GRAPH REASONING</span>
+        <h3>2. Menemukan Perubahan yang Berdampak</h3>
+        <p>AI mengusulkan pasangan konsep lama-baru, sedangkan graph engine menghitung konsekuensi strukturalnya.</p>
+        <ul><li>Deteksi konsep baru, hilang, berpindah, atau berubah kedalaman.</li><li>Deteksi tujuan tanpa asesmen dan prasyarat yang putus.</li><li>Hasil diberi label <i>candidate</i>, <i>validated</i>, atau <i>needs review</i>.</li></ul>
+      </div>
+      <div class="ai-card">
+        <span class="ai-role">LEARNER MODELING</span>
+        <h3>3. Menguji Alur dengan Data Murid</h3>
+        <p>Model diagnosis kognitif membaca asesmen mikro untuk memperkirakan kompetensi yang telah dikuasai dan bagian yang menjadi hambatan.</p>
+        <ul><li>Dashboard menampilkan mastery profile kelas.</li><li>AI mencari pola kesenjangan, tetapi tidak memberi label tetap pada murid.</li><li>Guru menerima rekomendasi bridge lesson dengan bukti asesmen.</li></ul>
+      </div>
+      <div class="ai-card">
+        <span class="ai-role">PLANNING + TEACHER COPILOT</span>
+        <h3>4. Menghasilkan Rencana dan Penjelasan</h3>
+        <p>Optimizer menghasilkan beberapa rencana normal, recovery, atau mixed-readiness. Copilot menjelaskan alasan setiap urutan menggunakan RAG berbasis dokumen sekolah.</p>
+        <ul><li>Hard constraints tidak boleh dilanggar oleh LLM.</li><li>Guru dapat membandingkan trade-off waktu, kedalaman, remedial, dan asesmen.</li><li>Setiap rekomendasi dapat ditelusuri ke graph dan sumbernya.</li></ul>
+      </div>
+    </div>
+
+    <div class="ai-guardrails">
+      <div class="ai-guardrail"><strong>Source-grounded</strong><p>Jawaban AI wajib menunjuk dokumen dan bagian teks yang menjadi dasar.</p></div>
+      <div class="ai-guardrail"><strong>Human approval</strong><p>Relasi prasyarat dan perubahan kurikulum tidak dipublikasikan tanpa validasi guru.</p></div>
+      <div class="ai-guardrail"><strong>Model separation</strong><p>LLM tidak menggantikan model diagnosis dan optimizer yang lebih terukur.</p></div>
+      <div class="ai-guardrail"><strong>Privacy-first</strong><p>Data murid diminimalkan, diagregasi, dan tidak digunakan untuk ranking guru.</p></div>
+    </div>
+
+    <div class="ai-mvp">
+      <h3>MVP AI untuk Demo Hackathon</h3>
+      <p>Unggah dua versi ATP, validasi graph hasil ekstraksi, masukkan asesmen mikro, lalu tampilkan curriculum debt dan bridge plan delapan minggu yang disertai alasan.</p>
+      <code>PDF -> graph</code><code>graph diff</code><code>mastery profile</code><code>bridge plan</code><code>evidence-backed copilot</code>
+    </div>
+  </section>
+
+  <section class="sources" id="sources">
+    <h2>Rujukan Awal</h2>
+    <p>Rujukan berikut menjadi titik awal penelusuran, bukan pengganti validasi literatur sistematis.</p>
+    <ul>
+      <li><a href="https://doi.org/10.1080/03057267.2011.604476" target="_blank" rel="noopener">Duschl, Maeng &amp; Sezen - Learning Progressions</a></li>
+      <li><a href="https://doi.org/10.1371/journal.pone.0143748" target="_blank" rel="noopener">Komenda et al. - Curriculum Mapping and Academic Analytics</a></li>
+      <li><a href="https://doi.org/10.1007/978-3-662-49851-4" target="_blank" rel="noopener">van der Aalst - Process Mining</a></li>
+      <li><a href="https://doi.org/10.3389/fpsyg.2020.569852" target="_blank" rel="noopener">Wang et al. - GDINA Learning Progression</a></li>
+      <li><a href="https://doi.org/10.1109/TSP.2016.2595495" target="_blank" rel="noopener">Xu, Xing &amp; van der Schaar - Course Sequence Recommendations</a></li>
+      <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-89366-7_6" target="_blank" rel="noopener">Automatic Curriculum Cohesion Analysis Based on Knowledge Graphs</a></li>
+      <li><a href="https://doi.org/10.1146/annurev-statistics-033021-111803" target="_blank" rel="noopener">Zhang, Liu &amp; Ying - Statistical Applications to Cognitive Diagnostic Testing</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AlurNalar</b> - Ide riset dan sistem inovasi untuk Isu 13. Halaman ini merupakan konsep awal untuk validasi lapangan dan pengembangan prototype.</div>
+</footer>
+</body>
+</html>
