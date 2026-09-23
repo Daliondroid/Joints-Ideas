@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NalarLoop: Sistem Literasi-Numerasi | Hackathon JOINTS</title>
+<style>
+  :root{
+    --bg:#0f172a; --ink:#0f172a; --muted:#64748b; --card:#fff;
+    --soft:#f8fafc; --line:#e2e8f0; --purple:#7c3aed; --purple-dark:#5b21b6;
+    --teal:#0d9488; --blue:#2563eb; --green:#15803d; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--soft);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.65}
+  a{color:var(--purple-dark)}
+  .wrap{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+  header.hero{position:relative;overflow:hidden;color:#fff;padding:56px 24px 44px;background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 38%,#0d9488 70%,#7c3aed 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 84% 14%,rgba(255,255,255,.28),transparent 34%)}
+  .eyebrow{display:inline-block;padding:6px 13px;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.16);border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.3px}
+  h1{max-width:930px;margin:16px 0 10px;font-size:clamp(28px,5vw,50px);line-height:1.12}
+  .lead{max-width:920px;margin:0;font-size:clamp(14px,2vw,18px);opacity:.96}
+  .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .meta span{padding:6px 11px;border-radius:999px;background:rgba(0,0,0,.28);font-size:13px}
+  nav.toolbar{position:sticky;top:0;z-index:20;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .toolbar-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .toolbar a,.print-btn{display:inline-block;text-decoration:none;border:0;border-radius:10px;padding:9px 13px;font-size:13px;font-weight:800;cursor:pointer}
+  .toolbar a{background:var(--ink);color:#fff}
+  .toolbar a.secondary{background:#ede9fe;color:var(--purple-dark)}
+  .print-btn{background:#e0f2fe;color:#075985}
+  main{max-width:1160px;margin:0 auto;padding:28px 16px 64px}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:25px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .metric strong{display:block;color:var(--purple);font-size:25px;line-height:1.1}
+  .metric small{color:var(--muted)}
+  .notice{padding:15px 17px;margin-bottom:26px;border:1px solid #c4b5fd;border-radius:14px;background:#f5f3ff;color:#312e81;font-size:14px}
+  .problem-frame,.concept-panel,.validation{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:28px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .problem-frame{border-left:6px solid var(--amber)}
+  .problem-frame h2,.concept-panel h2,.validation h2{margin:0 0 8px;font-size:24px}
+  .problem-frame p,.concept-panel p,.validation p{margin:0;font-size:14.5px}
+  .problem-frame strong{color:#92400e}
+  .section-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-bottom:32px}
+  .section-nav a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink);font-weight:800}
+  .section-nav a:hover{border-color:var(--purple);color:var(--purple-dark)}
+  .section-nav small{display:block;color:var(--muted);font-weight:400}
+  .concept-panel{background:linear-gradient(135deg,#fff 0%,#f5f3ff 100%);border-color:#c4b5fd}
+  .concept-panel .label{color:var(--purple-dark);font-size:12px;font-weight:900;letter-spacing:.6px;text-transform:uppercase}
+  .concept-panel h2{font-size:clamp(25px,4vw,36px);color:var(--purple-dark)}
+  .concept-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+  .concept-box{padding:15px;border:1px solid #ddd6fe;border-radius:13px;background:rgba(255,255,255,.75)}
+  .concept-box h3{margin:0 0 5px;font-size:14px;color:var(--purple-dark)}
+  .concept-box p{font-size:13.5px}
+  .research-section{scroll-margin-top:78px;margin-top:38px}
+  .research-head{display:flex;gap:13px;align-items:flex-start;padding:20px;border-radius:16px;margin-bottom:16px;color:#fff}
+  .research-head.teal{background:linear-gradient(120deg,#115e59,#0d9488)}
+  .research-head.blue{background:linear-gradient(120deg,#1e3a8a,#2563eb)}
+  .research-head.green{background:linear-gradient(120deg,#14532d,#15803d)}
+  .research-head.purple{background:linear-gradient(120deg,#4c1d95,#7c3aed)}
+  .research-number{display:inline-grid;place-items:center;min-width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.2);font-size:22px;font-weight:900}
+  .research-head h2{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.2}
+  .research-head p{margin:5px 0 0;opacity:.92;font-size:14px}
+  .breakdown{padding:16px 18px;margin-bottom:14px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a}
+  .breakdown h3{margin:0 0 5px;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+  .breakdown p{margin:0;font-size:14.5px}
+  .research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .research-box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:0 4px 15px rgba(15,23,42,.05)}
+  .research-box h3{margin:0 0 7px;color:var(--purple-dark);font-size:13px;text-transform:uppercase;letter-spacing:.45px}
+  .research-box p{margin:0;font-size:14px}
+  .research-box ul{margin:5px 0 0;padding-left:19px;font-size:14px}
+  .research-box li{margin-bottom:5px}
+  .source{margin-top:11px!important;color:var(--muted);font-size:12.5px!important}
+  .source a{font-weight:700}
+  .keywords{background:#f8fafc}
+  .keywords code{display:inline-block;margin:4px 4px 0 0;padding:4px 8px;border-radius:999px;background:#0f172a;color:#fff;font-size:12px}
+  .phase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+  .phase{padding:15px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}
+  .phase strong{display:block;color:var(--teal);font-size:13px;letter-spacing:.4px}
+  .phase h3{margin:5px 0;font-size:17px}
+  .phase p{font-size:13.5px}
+  .validation{margin-top:38px;border-left:6px solid var(--green)}
+  .validation ul{margin:8px 0 0;padding-left:20px;font-size:14px}
+  .sources{margin-top:28px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+  .sources h2{margin:0 0 6px;font-size:21px}
+  .sources p{margin:0 0 12px;color:var(--muted);font-size:14px}
+  .sources ul{margin:0;padding-left:20px;font-size:14px}
+  footer{padding:30px 24px;background:var(--bg);color:#cbd5e1;font-size:13px}
+  @media(max-width:820px){.concept-grid,.phase-grid{grid-template-columns:1fr}.research-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){header.hero{padding:40px 18px 30px}main{padding-left:12px;padding-right:12px}.research-head{padding:16px}.research-box,.problem-frame,.concept-panel,.validation{padding:17px}.toolbar-inner{justify-content:stretch}.toolbar a,.print-btn{flex:1;text-align:center}}
+  @media print{nav.toolbar,.section-nav{display:none}.research-box,.concept-panel,.problem-frame,.validation{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Hackathon JOINTS • Research-to-Prototype</span>
+    <h1>NalarLoop: Dari Skor PISA ke Intervensi yang Tepat</h1>
+    <p class="lead">Ide sistem untuk Isu 3: Krisis Literasi-Numerasi. NalarLoop tidak membuat bank soal PISA baru, tetapi mengubah skor agregat menjadi peta keterampilan mikro, bukti transfer di kehidupan nyata, dan tindakan pedagogis yang dapat diuji.</p>
+    <div class="meta"><span>1 masalah prioritas</span><span>1 konsep inti</span><span>4 mekanisme lintas disiplin</span><span>Adaptive + contextual + coaching</span></div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a href="inventarisasi-25-masalah-mikro-makro.html#m3">Kembali ke Isu 3</a>
+    <a class="secondary" href="#concept">Konsep inti</a>
+    <a class="secondary" href="#approach1">4 mekanisme riset</a>
+    <a class="secondary" href="#sources">Rujukan</a>
+    <button class="print-btn" onclick="window.print()">Cetak / PDF</button>
+  </div>
+</nav>
+
+<main>
+  <div class="summary">
+    <div class="metric"><strong>NalarLoop</strong><small>Nama konsep aplikasi</small></div>
+    <div class="metric"><strong>4</strong><small>Modul riset yang digabung</small></div>
+    <div class="metric"><strong>Transfer</strong><small>Pengetahuan dipakai di konteks nyata</small></div>
+    <div class="metric"><strong>MVP</strong><small>Dapat diuji pada satu kelas</small></div>
+  </div>
+
+  <div class="notice"><b>Catatan kebaruan:</b> komponen-komponen NalarLoop telah memiliki basis riset masing-masing. Kandidat novelty berada pada integrasinya: cognitive diagnosis, asesmen adaptif, transfer kontekstual, dan coaching dialogis dalam satu closed-loop system untuk literasi-numerasi.</div>
+
+  <section class="problem-frame">
+    <h2>Masalah yang Diserang</h2>
+    <p>Skor PISA menunjukkan gejala makro, tetapi tidak langsung menjawab keterampilan apa yang hilang dan tindakan apa yang harus dilakukan guru. Murid dapat menghafal prosedur di lembar soal, tetapi gagal membaca grafik, memahami formulir, membandingkan harga, atau menjelaskan alasan. Kebutuhan tersembunyinya adalah <strong>transfer observability</strong>: kemampuan melihat kapan pengetahuan gagal berpindah dari kelas ke kehidupan.</p>
+  </section>
+
+  <section id="concept" class="concept-panel">
+    <div class="label">Konsep inti</div>
+    <h2>Closed-Loop Reasoning System</h2>
+    <p>NalarLoop mengubah hasil asesmen menjadi siklus perbaikan. Sistem mencari keterampilan mikro yang hilang, mengujinya dalam konteks berbeda, memberi rekomendasi tindakan untuk guru, lalu mengukur ulang apakah penalaran murid benar-benar membaik.</p>
+    <div class="concept-grid">
+      <div class="concept-box"><h3>Diagnose</h3><p>Memecah skor literasi-numerasi menjadi keterampilan seperti inferensi, evaluasi sumber, pemodelan, dan interpretasi data.</p></div>
+      <div class="concept-box"><h3>Transfer</h3><p>Menguji keterampilan melalui teks, tabel, jadwal, formulir, grafik, dan masalah personal atau sosial.</p></div>
+      <div class="concept-box"><h3>Improve</h3><p>Menghubungkan kesenjangan murid dengan strategi dialog guru dan mengukur dampaknya secara berulang.</p></div>
+    </div>
+  </section>
+
+  <div class="section-nav">
+    <a href="#approach1">1. PISA Skill Graph<small>Memecah skor menjadi keterampilan mikro</small></a>
+    <a href="#approach2">2. Adaptive Evidence Assessment<small>Mengukur lebih sedikit, tetapi lebih informatif</small></a>
+    <a href="#approach3">3. TransferBridge<small>Menguji penalaran di dunia nyata</small></a>
+    <a href="#approach4">4. Dialogic AI Coaching<small>Mengubah percakapan guru di kelas</small></a>
+  </div>
+
+  <section class="research-section" id="approach1">
+    <div class="research-head teal">
+      <span class="research-number">1</span>
+      <div><h2>PISA Skill Graph dan Cognitive Diagnostic Learning Progression</h2><p>Peta keterampilan mikro di balik skor literasi dan numerasi</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi memecah nilai literasi-numerasi menjadi peta kemampuan. Guru dapat melihat apakah murid bermasalah pada menemukan informasi, membuat inferensi, membaca grafik, memodelkan masalah, atau menafsirkan hasil.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p>PISA mengukur proses seperti memahami dan mengevaluasi teks serta memformulasikan, menggunakan, dan menginterpretasikan matematika dalam konteks nyata. <i>Cognitive Diagnostic Models</i> seperti DINA dan G-DINA menggunakan Q-matrix untuk mengestimasi mastery pada keterampilan yang lebih kecil. <i>Learning progression</i> menyusun hubungan perkembangan antar-keterampilan.</p><p class="source">Rujukan: <a href="https://doi.org/10.1787/7ea9ee19-en" target="_blank" rel="noopener">OECD PISA 2022 Mathematics Framework</a>, <a href="https://doi.org/10.1080/01443410.2015.1076764" target="_blank" rel="noopener">Chen &amp; Chen, 2015</a>, dan <a href="https://doi.org/10.3389/fpsyg.2021.657858" target="_blank" rel="noopener">Wu et al., 2021</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Sekolah biasanya mengelola literasi dan numerasi sebagai satu skor. NalarLoop menjadikan skor sebagai pintu masuk menuju <b>skill graph</b> yang menunjukkan jalur prasyarat dan keterampilan yang menjadi bottleneck.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Skill graph untuk membaca, numerasi, statistik, dan penalaran.</li><li>Bank soal dengan metadata keterampilan mikro dan konteks.</li><li>Profil mastery murid dan kelas.</li><li>Deteksi transfer gap antara soal abstrak dan tugas kontekstual.</li><li>Rekomendasi remedial berdasarkan keterampilan, bukan skor total.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>cognitive diagnostic assessment PISA</code><code>G-DINA Q-matrix reading comprehension</code><code>learning progression literacy numeracy</code><code>diagnosis keterampilan mikro membaca</code><code>profil penguasaan numerasi</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach2">
+    <div class="research-head blue">
+      <span class="research-number">2</span>
+      <div><h2>Adaptive Evidence Assessment</h2><p>Mengukur lebih sedikit, tetapi menghasilkan bukti yang lebih tajam</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Murid tidak mengerjakan tes panjang yang sama. Sistem memilih pertanyaan berikutnya berdasarkan jawaban sebelumnya dan berhenti ketika sudah cukup yakin menemukan sumber kesalahannya.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p>Gunakan <i>Item Response Theory</i>, <i>Computerized Adaptive Testing</i>, <i>Dynamic Assessment</i>, dan <i>Evidence-Centered Design</i>. ECD menghubungkan klaim kemampuan, bukti yang diperlukan, dan tugas yang dapat menghasilkan bukti tersebut. CAT memilih butir yang paling informatif berdasarkan estimasi kemampuan dan ketidakpastian.</p><p class="source">Rujukan: <a href="https://doi.org/10.1002/j.2333-8504.2003.tb01908.x" target="_blank" rel="noopener">Mislevy, Almond &amp; Lukas, 2003</a>, <a href="https://doi.org/10.1073/pnas.1917683117" target="_blank" rel="noopener">Raudenbush et al., 2020</a>, dan <a href="https://www.mdpi.com/2076-3417/10/22/8196" target="_blank" rel="noopener">CAFT, 2020</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Asesmen sekolah sering menghabiskan waktu tetapi tidak cukup menjelaskan tindakan berikutnya. NalarLoop menjadikan asesmen sebagai <b>alat pengambilan keputusan real time</b>, bukan hanya alat pemberi nilai.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Tes adaptif 5-10 menit.</li><li>Soal membaca teks tunggal, teks ganda, formulir, tabel, dan grafik.</li><li>Soal numerasi berbasis belanja, jadwal, cuaca, transportasi, dan keuangan.</li><li>Graduated prompts untuk membedakan belum tahu dan hampir bisa.</li><li>Output: mandiri, perlu bantuan, atau belum siap.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>computerized adaptive testing literacy numeracy</code><code>evidence-centered design formative assessment</code><code>dynamic assessment reading comprehension</code><code>adaptive formative assessment Bayesian network</code><code>asesmen adaptif berbasis IRT</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach3">
+    <div class="research-head green">
+      <span class="research-number">3</span>
+      <div><h2>TransferBridge: JITAI dan Ecological Assessment</h2><p>Menguji apakah pengetahuan benar-benar dipakai di luar lembar soal</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi memberi tantangan singkat ketika murid berhadapan dengan konteks nyata: membaca pengumuman, memahami jadwal, membandingkan harga, atau menafsirkan grafik. Sistem mencari momen ketika pengetahuan gagal ditransfer.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p>Gunakan <i>Situated Learning</i>, <i>Ecological Momentary Assessment</i>, <i>Experience Sampling</i>, dan <i>Just-in-Time Adaptive Intervention</i>. JITAI memilih waktu dan bentuk intervensi berdasarkan keadaan pengguna. <i>Micro-randomized trial</i> dapat menguji intervensi mana yang efektif pada konteks tertentu.</p><p class="source">Rujukan: <a href="https://doi.org/10.3758/s13428-023-02083-8" target="_blank" rel="noopener">JITA-EMA, 2023</a> dan <a href="https://preview-www.nature.com/articles/s41539-024-00289-9" target="_blank" rel="noopener">Mobile Interventions for Education, 2024</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Pembelajaran literasi-numerasi biasanya diukur di ruang kelas. NalarLoop memperkenalkan <b>transfer observability</b>: sistem melihat apakah murid dapat menggunakan pengetahuan dalam situasi personal, pekerjaan, sosial, atau ilmiah seperti yang ditekankan PISA.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Tantangan mikro berbasis struk, jadwal, formulir, berita, dan grafik.</li><li>Pengguna memilih konteks tanpa pelacakan lokasi otomatis.</li><li>Jawaban berupa foto, teks, suara, atau alasan.</li><li>Sistem membedakan kesalahan membaca, pemodelan, hitung, dan interpretasi.</li><li>Prompt berikutnya disesuaikan dengan konteks dan respons sebelumnya.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>ecological momentary assessment education</code><code>just-in-time adaptive intervention learning</code><code>situated numeracy assessment</code><code>transfer of learning real world contexts</code><code>asesmen literasi numerasi kontekstual</code></div>
+    </div>
+  </section>
+
+  <section class="research-section" id="approach4">
+    <div class="research-head purple">
+      <span class="research-number">4</span>
+      <div><h2>Dialogic AI Coaching untuk Guru</h2><p>Menghubungkan skill gap murid dengan kualitas percakapan di kelas</p></div>
+    </div>
+    <div class="breakdown"><h3>Breakdown sederhana</h3><p>Aplikasi tidak hanya memberi latihan kepada murid. Guru dapat merekam potongan pembelajaran, lalu sistem menunjukkan apakah murid mendapat kesempatan untuk menjelaskan alasan, memberi bukti, membandingkan strategi, dan mengevaluasi jawaban.</p></div>
+    <div class="research-grid">
+      <div class="research-box"><h3>Konsep/Mekanisme Riset Terkait</h3><p>Gunakan <i>Dialogic Teaching</i>, <i>Formative Assessment</i>, <i>Content-Focused Coaching</i>, dan <i>Classroom Discourse Analysis</i>. Intervensi Dialogic Teaching dalam uji coba EEF meningkatkan kemajuan English, matematika, dan sains. Coaching berbasis video juga menunjukkan peningkatan kualitas diskusi teks dan capaian membaca.</p><p class="source">Rujukan: <a href="https://doi.org/10.1080/02671522.2018.1481140" target="_blank" rel="noopener">Alexander, 2018</a>, <a href="https://doi.org/10.1002/rrq.317" target="_blank" rel="noopener">Correnti et al., 2020</a>, dan <a href="https://doi.org/10.3102/0034654318759268" target="_blank" rel="noopener">Kraft, Blazar &amp; Hogan, 2018</a>.</p></div>
+      <div class="research-box"><h3>Sisi Kebaruan (Novelty Point)</h3><p>Program literasi-numerasi sering memberi modul dan bank soal, tetapi tidak mengubah percakapan yang membangun penalaran. NalarLoop menghubungkan <b>skill gap murid -> teacher move -> bukti percakapan -> pengukuran ulang</b>.</p></div>
+      <div class="research-box"><h3>Potensi Adaptasi ke Sistem Aplikasi</h3><ul><li>Audio pembelajaran dianalisis menjadi transkrip.</li><li>Deteksi pertanyaan terbuka, probing, permintaan bukti, waktu tunggu, dan kesempatan murid berbicara.</li><li>Rekomendasi satu target coaching kecil untuk pelajaran berikutnya.</li><li>Perubahan teacher move dibandingkan secara formatif, bukan untuk ranking.</li><li>AI dapat memberi saran, tetapi coach atau guru tetap menafsirkan hasil.</li></ul></div>
+      <div class="research-box keywords"><h3>Kata Kunci Penelusuran Lanjutan</h3><code>dialogic teaching literacy numeracy</code><code>classroom discourse analysis AI</code><code>content-focused literacy coaching</code><code>multimodal learning analytics teacher feedback</code><code>coaching guru berbasis analisis percakapan kelas</code></div>
+    </div>
+  </section>
+
+  <section class="validation">
+    <h2>Rancangan MVP dan Validasi</h2>
+    <p>Mulai dari satu kelas dan satu tema, misalnya interpretasi grafik atau membaca dua sumber informasi.</p>
+    <div class="phase-grid">
+      <div class="phase"><strong>FASE 1 - DIAGNOSE</strong><h3>Skill Profile</h3><p>Asesmen adaptif singkat menghasilkan peta keterampilan mikro literasi-numerasi.</p></div>
+      <div class="phase"><strong>FASE 2 - TRANSFER</strong><h3>Context Task</h3><p>Murid menyelesaikan tugas personal atau sosial yang menuntut penerapan pengetahuan.</p></div>
+      <div class="phase"><strong>FASE 3 - COACH</strong><h3>Teacher Move</h3><p>Guru memperoleh satu strategi dialogis, lalu kelas diukur ulang.</p></div>
+    </div>
+    <ul><li>Ukur akurasi diagnosis keterampilan dan waktu asesmen.</li><li>Ukur Transfer Gap antara tugas sekolah dan tugas kontekstual.</li><li>Ukur perubahan kualitas pertanyaan dan penjelasan murid.</li><li>Uji peningkatan literasi-numerasi dengan desain kuasi-eksperimental atau cluster pilot.</li></ul>
+  </section>
+
+  <section class="sources" id="sources">
+    <h2>Rujukan Awal</h2>
+    <p>Rujukan berikut menjadi titik awal penelusuran, bukan pengganti validasi literatur sistematis.</p>
+    <ul>
+      <li><a href="https://doi.org/10.1787/7ea9ee19-en" target="_blank" rel="noopener">OECD - PISA 2022 Mathematics Framework</a></li>
+      <li><a href="https://doi.org/10.1080/01443410.2015.1076764" target="_blank" rel="noopener">Chen &amp; Chen - Reading Comprehension Skills and G-DINA</a></li>
+      <li><a href="https://doi.org/10.1073/pnas.1917683117" target="_blank" rel="noopener">Raudenbush et al. - Adaptive Assessment and Numerical Skills</a></li>
+      <li><a href="https://doi.org/10.3758/s13428-023-02083-8" target="_blank" rel="noopener">JITA-EMA - Adaptive Ecological Assessment</a></li>
+      <li><a href="https://doi.org/10.1002/rrq.317" target="_blank" rel="noopener">Correnti et al. - Online Content-Focused Coaching</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>NalarLoop</b> - Ide riset dan sistem inovasi untuk Isu 3. Halaman ini merupakan konsep awal untuk validasi lapangan dan pengembangan prototype.</div>
+</footer>
+</body>
+</html>
